@@ -1,0 +1,375 @@
+### <i class="icon information"></i> STS
+
+さてここからはSTSという統合開発環境を使用していきます。もしここで**STS**ダウンロードされていない方がいらっしゃいましたらJavaの環境構築に戻りましょう。
+STSとは統合開発環境というもので、文字どおり開発環境に必要なものを全て揃えています。ここでは、
+- **1.Javaのプログラムを書くためのファイルを作成する**
+- **2.Javaのプログラムを書く**
+- **3.Javaのプログラムが動くか確認する**
+- **3.Javaのプログラムを実行する**
+といった流れを全てSTS上で行います。さてそれではSTSを用いて開発していきましょう。
+
+## Javaファイルを作成しよう
+
+### <i class="icon pen"></i> **STSでファイルを作成しましょう**
+
+まず先ほどダウンロードしたSTSを開きましょう。
+以下のような状態になっているでしょうか。
+
+![https://tech-master.s3.amazonaws.com/uploads/curriculums//3fec33dc094e52a671bb421a0cba00bc.png](https://tech-master.s3.amazonaws.com/uploads/curriculums//3fec33dc094e52a671bb421a0cba00bc.png)
+
+ではまずこれから作業するプロジェクト(フォルダ)を作成しましょう。
+
+
+### <i class="icon pen"></i> **STSでモードを選択しましょう**
+
+以下の手続きにしたがって、Javaを選択しましょう。
+2の選択画面では、様々なモード選択が出来ます。Java、Springといったものを選択することが出来ます。
+実は、こちら先ほど説明したフレームワークというものになります。是非後ほど学ぶので、ここではモードを切り替えることができる点を押さえてください。
+
+![https://tech-master.s3.amazonaws.com/uploads/curriculums//51a0eb8115bd90f8eaa62b50c87fbcb7.png](https://tech-master.s3.amazonaws.com/uploads/curriculums//51a0eb8115bd90f8eaa62b50c87fbcb7.png)
+
+次に、Javaのプロジェクトを作成しましょう。
+
+### <i class="icon pen"></i> **STSでプロジェクトを作成しましょう**
+
+まず、 Package Explorerという左のタブを見てください。そちらの方で、一度右クリックを押してみましょう。すると、下図のように、  "New"と出てくるので、その後 "Java Project"を押しましょう。
+
+![https://tech-master.s3.amazonaws.com/uploads/curriculums//8d03b69d3315a180bfe5d0bcf459a611.png](https://tech-master.s3.amazonaws.com/uploads/curriculums//8d03b69d3315a180bfe5d0bcf459a611.png)
+
+すると以下の図が表示されると思います。こちらでは、project nameを記述します。これがフォルダ名となりアプリケーション名を示すときに使用します。ここでは、 " sample_java"としておきましょう。また Locationとありますが、こちらは、フォルダが保存されるディレクトリ先を指定しています。ここでは"/Users/tsujishuuuhei/Desktop/sample_java"なので、 "sample_java"は"Desktop"に保存されています。
+また保存先を変えたい場合は、横の"Browse"を押していただくと、保存したいディレクトリ先を指定することが出来ます。
+こちらの記述を終えたら"finish"を押してください。
+
+![https://tech-master.s3.amazonaws.com/uploads/curriculums//890796ad2b343cfa5ae72de6c03c71c9.png](https://tech-master.s3.amazonaws.com/uploads/curriculums//890796ad2b343cfa5ae72de6c03c71c9.png)
+
+すると以下のように"java_sample"が作成されたと思います。こちらでプロジェクトを作成することが出来ました。
+次は、Javaのファイルを作成して最も有名なプログラミング "Hello World"と画面上に出力させましょう。
+
+![https://tech-master.s3.amazonaws.com/uploads/curriculums//1c68ac83258c31a2517a57166f9671f7.png](https://tech-master.s3.amazonaws.com/uploads/curriculums//1c68ac83258c31a2517a57166f9671f7.png)
+
+次は、Javaのプログラムを記述するファイルを作る必要があります。
+Javaを書くファイルの名前は**実行するファイルのクラス名(大文字から始まる)という決まりがあります**。また**HelloWorld.java**のようにファイル名の最後に**java**という拡張子をつけるという決まりもあります。
+ここではクラス名などまだ学習していないのでHelloWorld.javaという名前を付けておきましょう。
+
+### <i class="icon pen"></i> **STSでJavaのクラスを作成しましょう。**
+
+以下のようにして、  sample_javaの"src"の上で "右クリック"をしましょう。すると、画面のように"New"と"Class"といったものが表示されたと思います。
+
+![https://tech-master.s3.amazonaws.com/uploads/curriculums//560c00adc5832d6f5f0f1b64a94eeb2f.png](https://tech-master.s3.amazonaws.com/uploads/curriculums//560c00adc5832d6f5f0f1b64a94eeb2f.png)
+
+こちらを選択すると以下の画面が表示されます。
+
+![https://tech-master.s3.amazonaws.com/uploads/curriculums//c9827a24534a80a0e036cef2c885755b.png](https://tech-master.s3.amazonaws.com/uploads/curriculums//c9827a24534a80a0e036cef2c885755b.png)
+
+こちらの"Name"は先ほど述べたように始め大文字から書く必要があります。クラス名は大文字から記述します。
+
+こちらでは、"Hello World"というクラス名で作成しましょう。またJavaではmain methodというものが必要になります。ここではくわしく言及しませんが、"public static void main(String[] args)"というメソッドの欄にチェックを入れてください。
+その後、"Finish"を押してください。
+以下のようなものが表示されているでしょうか。
+
+![https://tech-master.s3.amazonaws.com/uploads/curriculums//21189b7d3b58e8154cb5b5dc5474234e.png](https://tech-master.s3.amazonaws.com/uploads/curriculums//21189b7d3b58e8154cb5b5dc5474234e.png)
+
+このようなものが表示されたのであれば、成功です。
+
+### <i class="icon information", id="term_81"></i> 拡張子
+ファイル名の末尾につけられた**ファイルの種類を識別**するための文字のことです。
+ファイル名と拡張子は**.(ドット)**で区切られます。
+
+今回のJavaプログラムはHello Worldを表示するものなのでファイル名は**HelloWorld.java**とします。
+
+まず、プログラムを記述するためのテキストエディタ**STS**を開きましょう。
+
+### <i class="icon information"></i> テキストエディタ
+テキストエディタは文字情報のみのファイルを作成、編集、保存するために使わるソフトウェアです。プログラムの記述をするときにも、テキストエディタを使います。STSは統合開発環境なのでテキストエディタを含んでいます。
+
+## プログラムを書いてみよう
+
+ではこれから先ほど作成したHelloWorld.javaファイルにプログラムを書いていきます。
+作成したHelloWorld.javaを見てみましょう。
+
+開いたHelloWorld.javaにJavaプログラムを書いてみます。まずはこちらで指定したソースコードをそのまま書いてください。
+
+###<i class="icon pen"></i> **以下のソースコードをHelloWorld.javaに記述してください**
+
+```Java[1]:HelloWorld.java
+package sample_java;
+
+public class HelloWorld {
+   public static void main(String[] args) {
+     System.out.println("Hello World");
+   }
+}
+```
+
+これで画面上にHello Worldと表示するプログラムが書けました。
+ではソースコードの内容を見てみましょう。
+
+### オブジェクトとその種類
+
+`System.out.prinln("Hello World")`の`'Hello World'`は画面上に表示させる**文字列**です。
+文字列はJavaの**オブジェクト**の1つで文字を扱うために使用します。
+
+### <i class="icon information"></i> オブジェクト
+Javaで扱える全てのデータは、**「オブジェクト」**と呼ばれます。
+現実世界の数、文字、色、時間などはJavaで扱う場合にはオブジェクトという形で
+データ化され、扱うことが可能となります。
+
+以下にJavaの代表的なオブジェクトを示します。もちろんこれら以外にもたくさんのオブジェクトがあります。
+
+オブジェクト名|扱うもの
+:-:|:-:
+文字列オブジェクト|文字
+数値オブジェクト|数
+時刻オブジェクト|時間
+日付オブジェクト|日付
+配列オブジェクト|複数のデータ
+
+<br>
+### <i class="icon information", id="term_84"></i> 文字列
+文字列とはプログラミングの中で文字を扱うためのオブジェクトのことを指します。
+文字列は文字を**" "(ダブルクォーテーション)**で囲むことで定義します。
+' ' (シングルクォーテーション)で囲ってしまうと、エラーになってしまうので注意してください！
+
+```Java[1]
+  "文字列のサンプル"
+  "これは文字列です"
+
+```
+
+
+
+###メソッドに関して
+` System.out.prinln("Hello World")`の**System.out.prinln**はオブジェクトを表示するための**メソッド**です。
+
+### <i class="icon information", id="term_85"></i> メソッド
+メソッドとはプログラミングにおける何らかの処理をする命令群のことです。
+例えば、「ターミナルにオブジェクトを出力する」という処理を実行するメソッドが**System.out.println**になります。
+メソッド名をプログラム中に記述することで、そのメソッドの処理を行うことができます。
+
+### <i class="icon information", id="term_86"></i> System.out.prinln()メソッド
+System.out.prinln()というメソッドに対して文字列など出力したいオブジェクトを()内に記述すると、そのオブジェクトが文字としてターミナルやSTSの下にあるコンソール上に出力されます。
+今回はSystem.out.prinlnのあとに"Hello World"という文字列を指定しているので画面上にHello Worldと表示されます。
+
+### <i class="icon information", id="term_86"></i> public static void main(String[] args) {}
+いきなりこの記述が出てきて混乱された方も多いと思いますが、この記述は{}の中の内容を実行するメソッドの1つでmain()メソッドと呼びます。逆にmain()メソッドの外に書かれた処理は実行されないので、何か処理させたいことはこのメソッドの中に書きましょう。publicやstaticの意味など細かいことは後ほど説明しますので、今はこの通りに書いて下さい。
+
+### <i class="icon information", id="term_86"></i> ;（セミコロン）
+;（セミコロン）は日本語で「。」と同じように、文の終わりを示します。PCはこのセミコロンで1つの文を判断しているので、以下の様な書き方もできます。
+
+
+```Java[1]
+ System.out.println("Hello");  System.out.println("World");
+//1行で2つ以上の文を記述
+System.out
+.println("Hello World");
+//2つ以上の行で1つの文を記述
+
+```
+
+
+### <i class="icon information", id="term_86"></i> package
+このpackageに関しても後ほど記述いたいます。大まかに説明いたしますと、先ほど作成しましたクラスが大量に増えた際にどこにクラスがあるかわからなくなってしまうので整理する役割を果たしています。
+また詳細に関しては今後説明いたしますので、ここでは読み飛ばしてください。
+
+### <i class="icon information", id="term_85"></i> コンパイル
+
+コンパイルとはJavaなどのプログラミング言語で書かれたプログラムをコンピューターが実行できる機械語に変換するプログラムのことです。
+コンピューターはCPU(中央処理装置)でデータを処理しています。しかし、CPUはJavaで書いたソースコードを読み取ることが出来ず、機械語と呼ばれる言語で書かれたプログラムしか実行することは出来ません。
+そこでソースコードに対してコンパイルという処理を行って、機械語に変換します。
+コンパイラという変換ソフトウェアがコンパイルを実行し、もし誤りがあればその箇所を表示します。
+またコンパイルの長所として高速に処理を行うことが出来ます。
+
+### System.out.prinln("Hello World")の意味
+
+以上をふまえて先ほど書いたソースコードを見てみると、もう意味がわかりますね。
+
+```Java[1]:Helloworld.java
+  System.out.prinln("Hello World")
+```
+
+このソースコードは**"Hello World"という文字列**を** System.out.prinlnメソッドを使ってターミナル上に表示させる**、というプログラムになります。
+
+## Javaのプログラムをコンパイルしよう
+
+###<i class="icon pen"></i> **STSでターミナルを起動し、コンパイルしましょう**
+
+こちらは毎回このコマンドで、よく使うので覚えてしまいましょう。
+また、このコンパイルする際のコマンドは、javaファイルが存在するところで使用しなくてはいけません。では実際に行ってみましょう。
+
+まず、STSを開いていただいて上のタブバーにある"Window"を押してください。そこで"Show View"を押すと"Terminal"を押してください。またSTSのターミナルは質素なので、ご自身のmacに入っているターミナルを開きたい方はそちらでも構いません
+
+![https://tech-master.s3.amazonaws.com/uploads/curriculums//14a64f59c560da4cbfe829e3d2fc119a.png](https://tech-master.s3.amazonaws.com/uploads/curriculums//14a64f59c560da4cbfe829e3d2fc119a.png)
+
+```bash{2}:ターミナル
+  $ cd Desktop/sample_java/src/sample_java　　　# Javaファイルの位置まで移動
+  $ ls                                                # HelloWorld.javaのファイルが存在することを確認
+  $ javac Helloworld.java              # Javaプログラムのコンパイル
+```
+
+ここではJavaで書いたコードを機械語に変換（コンパイル）して、Javaのクラスファイルを作っています。クラスファイルとは、Javaファイルをコンパイルして機械が読める形で記述されたJavaのファイルです。
+上のようにエラーが出ずに、$ マークが表示された場合は正しく表示されます。
+
+### Helloworld.javaファイルを実行
+
+Javaプログラムを実行します。**Javaプログラムの実行はターミナルで**Javaコマンド**を打ち込みます。**
+
+### <i class="icon information", id="term_87"></i> Javaコマンド
+javaコマンドはJavaに関する様々な操作をターミナルで行うために必要なコマンドです。Javaファイルをプログラムとして実行するためには以下のようにターミナルに打ち込みます。
+
+```bash:ターミナル
+$ Java [実行したいJavaファイルのクラス名]
+```
+
+では、さきほど書いたプログラムが予想通りの結果となるか実行してみましょう。
+ここでの目的は、「Hello World」とターミナル上に表示されることです。ここでは、パッケージの概念を学んでいないので難しいかもしれないですが、コンパイルする際にパッケージ名も指定しなければいけません。パッケージ名の書き方はフォルダ階層の様に/で区切ります。今回はsample_javaのパッケージの中にHelloWorldがあるので、sample_java/HelloWorldと記述します。
+
+```bash{2}:ターミナル
+$ cd ..                                                 # ..で階層を1つ戻り、srcに移動
+$ ls                                                      # sample_javaが表示
+$ pwd　  　　　　　　　　 #pwdは今いる階層を表示　/Users/tsujishuuhei/Desktop/sample_java/srcを出力
+$ java sample_java/HelloWorld                               # 　ファイルを実行
+```
+
+この時、`commandキー + tabキー`を押すと、開いているアプリケーションを切り替えることができます。様々なアプリケーションを開きつつ作業をするエンジニアにとってはとても便利なコマンドなので、積極的に利用するようにしましょう。
+
+ちゃんとターミナル上に**Hello World**と表示されたでしょうか？
+もし何も表示されない場合はSTSで保存ができていないことが考えられます。
+保存ができているかどうかを確かめる方法があります。
+
+![https://tech-master.s3.amazonaws.com/uploads/curriculums//d5984f45399ff8d3630573a0469519c3.png](https://tech-master.s3.amazonaws.com/uploads/curriculums//d5984f45399ff8d3630573a0469519c3.png)
+
+このようにファイル名の左に*アスタリスク*があると、保存できていないということになります。
+このアスタリスクがないと保存できているという印になります。今後カリキュラムを進めていく上でも知っていると非常に便利ですのでぜひ覚えておいて下さい。
+
+以上ではじめてのプログラムは書けました。
+今後もこのようにJavaを実行していくので、忘れないようにしましょう。
+
+実は、STSではもっと楽にコンパイルと実行を行ってくれます。
+早速やってみましょう。
+
+###<i class="icon pen"></i> **STSでコンパイルし、実行してみましょう**
+![https://tech-master.s3.amazonaws.com/uploads/curriculums//0a38a0dabaf8c95f4b63276a26dc10bb.png](https://tech-master.s3.amazonaws.com/uploads/curriculums//0a38a0dabaf8c95f4b63276a26dc10bb.png)
+
+では、早速行っていきましょう。まずご自身が作成した"HelloWorld.java"というファイルを見つけてください。その上で"右クリック"を押していただき"Run As"を選択し"Java Application"を選択しましょう。すると自動でコンパイル・実行されて下の方に自動的にコンソールが開き、"HelloWorld"が出力されます。
+これが統合開発環境を使うメリットになります。ぜひjavac/javaコマンドを打つのではなく、統合開発環境を存分に使い倒しましょう。
+
+# ソースコードを書く上で気をつけること
+
+これからたくさんのソースコードを書いていくことになりますが、いくつか注意することがあるのでここで押さえておきましょう。
+
+## コメントを書くようにしよう
+
+### <i class="icon information"></i> コメント
+プログラム中には**コメント**と呼ばれるメモのようなものを書くことができます。
+コメントはプログラムの実行時に無視されるので何を書いても問題ありません。
+コメントを書いておくとどこで何をしているのかが明確になるため、ソースコードが読みやすくなります。
+
+### <i class="icon information"></i> コメントアウト
+ソースコード中の文字をコメントにすることを**コメントアウト**といいます。
+コメントアウトするにはコメントにしたい文字の先頭に**//(スラッシュ)**を記述します。
+
+```java[1]
+  // コメントアウト
+   System.out.prinln("Hello World")  //これは実行される
+ // System.out.prinln("Hello World") これは実行されない
+```
+
+2つめに記述された「System.out.prinln("Hello World") 」はその前に//が記述されているのでコメントアウトされ、実行されません。
+
+###<i class="icon pen"></i> **Helloworld.javaに以下のようにコメントを書いて実行してみましょう。**
+
+```java[1]:Helloworld.java
+  // これはHello Worldと表示するプログラムです
+  public class Helloworld {
+    public static void main(String[] args) {
+      System.out.println("Hello World");
+    }
+  }
+```
+
+##起こりやすいエラーについて知ろう
+
+プログラミングにエラーはつきものです。その中でも、はじめのうちは特に起こしやすいエラーを紹介します。以下に挙げるエラーに気をつければ、効率良く学習をすることができます。
+
+**・全角スペース**
+**・スペル間違い**
+**・閉じタグがない**
+**・セミコロン忘れ**
+
+### 全角スペースによるエラー
+
+**全角スペースがプログラム中に混入すると実行時にエラーとなります**。
+はじめのうちは見つけづらく、頻繁に起こるエラーなので、全角スペースには気をつけましょう。
+全角スペース同様、**日本語がプログラム中に混入すると実行時にエラーとなります**。
+
+<i class="icon attention"></i> ただし全角スペース、日本語ともに文字列では使えます。
+
+```java[1]
+  public class HelloWorld {
+    public static void main(String[] args) {
+      System.out.println("こんにちは");
+      System.out.println("");
+    }
+  }
+
+```
+
+上記のプログラムでは全角スペースと日本語がありますが、どちらも文字列なのでエラーを起こさずに実行できます。
+
+
+**全角スペースでのエラー**
+
+```java[1]HelloWorld.java
+  public class Helloworld {
+    public static void main(String[] args) {
+      System.out.println　("Hello World");
+    }
+  }
+
+```
+
+System.out.printlnと"Hello World"の間が全角スペースになっています。このプログラムをコンパイルするとエラーしてしまいます。
+
+
+###<i class="icon pen"></i>  **上の「HelloWorld.java」のサンプルをHelloWorld.javaにコピー&ペーストしてコンパイルしてみよう。エラーするので、どんなエラー文が表示されるのか見てみよう。**
+
+###スペル間違いのエラー
+
+**打ち間違いのエラー**
+
+``` java[1]:HelloWorld.java
+
+System.out.printl("こんにちは");
+```
+これは「println」でなく「printl」と**nが抜けてしまっていますね**。こうしたメソッドなどの名前を打ち間違えてしまいエラーとなることはよくあります
+
+###<i class="icon pen"></i>  **上の「HelloWorld.java」のサンプルをHelloWorld.javaにコピー&ペーストしてコンパイルしてみましょう。エラーとなるので、どんなエラー文が表示されるのか見てみましょう。**
+
+###閉じタグがないことによるエラー
+
+プログラミングにおける文法の中には、**決まった書き方で終わらせないといけない**ものがあります。
+
+``` java[1]
+  public class HelloWorld {
+    public static void main(String[] args) {
+      System.out.println("Hello World");
+  }
+```
+
+ここで`System.out.println( "Hello World")`はmain()メソッドの{}で囲まれています。こをこの** } **を忘れるとエラーとなってしまいます。 さらにHTMLでも同様に、閉じタグの概念が出てきます。 **HTML・CSS**を学習する際に改めて意識しましょう。
+
+###セミコロン忘れによるエラー
+
+``` java[1]
+  public class HelloWorld {
+    public static void main(String[] args) {
+      System.out.println("Hello World")
+   }
+  }
+```
+
+終了記号であるセミコロンを1つでも忘れてしまうと、機械がコードを認識出来なくなってしまうので、エラーとなります。プログラミングに慣れてきてもよくあるミスなので、気を付けましょう。
+
+
+###エラーが起こった時は
+ここまで、**「全角スペース」「スペル間違い」「閉じタグ忘れ」「セミコロン忘れ」**という4つのよくあるエラーの原因に関して学びました。はじめのうちは必ずこれらでエラーを起こすので、真っ先にチェックするようにしましょう。

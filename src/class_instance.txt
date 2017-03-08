@@ -1,0 +1,1170 @@
+#はじめに
+本章では、Javaの重要な概念である**「クラスとインスタンス」**について学習します。Javaで扱われる文字列や配列などのオブジェクトは、実は全て**「クラス」**と**「インスタンス」**という2つの概念の関係に基づいて作られています。そのため、Javaでプログラムを設計・実装する際は、クラスとインスタンスについて理解した方がより効率的です。
+また、この後のカリキュラムで、Springというwebアプリケーション開発のためのフレームワークについて学習します。このSpringは、Javaのロジックを使用しているため、ここでも**クラスとインスタンス**が重要となります
+
+
+#学習の目標
+###クラスとインスタンスについて理解する
+クラスとインスタンスを初めて学ぶときはイメージがしづらく、誰もが難しく感じます。繰り返し学習しながら、少しずつ理解していきましょう。
+たとえ始めはピンと来なかったとしても、**繰り返し学習することで確実に理解は深まっていきますのでご安心ください。**
+
+# 学習キーワード
+
+- クラス
+- インスタンス
+- コンストラクタ
+- インスタンス変数（ここまで）
+- static変数
+- インスタンスメソッド
+- staticメソッド
+- 継承
+- オーバーライド
+- オーバーロード
+- インターフェース
+
+
+#準備
+
+この章での学習を進めるにあたり、サンプルプログラムを書いていきます。
+この章での作業は`Review2.java`で行います。
+
+#Javaのプログラムの基本概念
+**クラスとインスタンス**について学習する前に、オブジェクトについて改めて確認します。こちらは**クラスとインスタンス**の必要性を学ぶ前提となるためです。
+
+##Javaのプログラムの基本概念を理解しよう
+
+Javaの基本概念である**オブジェクト**について確認していきましょう。
+
+###  オブジェクト
+オブジェクトについては、[はじめてのJava](http://master.tech-camp.in/curriculums/2#term_83)の章でも一度解説しています。
+Javaの世界では、全てのデータは**「オブジェクト」**と呼ばれます。これまで学習してきたものとしては、文字を表現するための**文字列オブジェクト**、数を表現するための**数値オブジェクト**、そして「オブジェクトを保管するオブジェクト」である**配列オブジェクト**や**ハッシュオブジェクト**があります。
+
+```Java:オブジェクト
+
+//文字列オブジェクト
+"こんにちは"
+//数値オブジェクト
+24
+
+```
+
+### オブジェクトとメソッド、返り値
+Javaのオブジェクトは、**メソッド**と呼ばれる技のようなものを使用することができます。オブジェクトごとに、利用できるメソッドが決まっています。
+例えば**lengthメソッド**は文字列オブジェクトのみが使えるメソッドです。
+
+
+```Java:[例]
+ "Hello World".length; //lengthメソッドは文字列オブジェクトにしか使えない
+
+```
+
+lengthメソッドは、このメソッドを利用した文字列オブジェクトの文字数を、数値オブジェクトとして返します。この返す値のことを、返り値と呼ぶのでした。
+
+**返り値について、おさらいしましょう。**
+基本的に**Javaでは全てのものを式として捉えます**。式であるということは、そこには必ず答えがあるはずです。この答えが、返り値です。例えば、lengthメソッドを利用した式の答えは下記のようになります。
+今回J「=>」という記号を、 返り値として表現します。
+
+```Java:[例]
+
+ "Hello World".length ;
+//=> 11
+//=>は返り値を表します
+
+```
+
+lengthメソッドの返り値は、自身を利用した文字列オブジェクトの文字数です。
+なので、「Hello World」の半角スペース分を含めた数値オブジェクト「11」が返り値となります。
+
+###Javaはオブジェクトを中心に考える言語
+オブジェクトはそれぞれが固有の性質を持ち、固有の技(メソッド)を使って返り値を返します。
+
+ここからは具体的な例で考えてみましょう。
+もしこのJava的な考え方で、現実世界を捉えてみたとします。そうすると、人間一人一人、車一台一台、建物一軒一軒、それぞれが別々のオブジェクトとなります。
+
+その中で１人の人間「ジョン」というオブジェクトについて考えます。人間なので、固有の名前や年齢や性別を持ち、話したり歩くこと（＝メソッド）ができます。「ジョン」が実際に話したり歩いたり、また別の人間の性質を持ったオブジェクトが歩いたり話したり、そしてまた別の車のオブジェクトが走ったりすることで世界が動きます。Java的な考え方で現実世界を捉えると、このようになります。この考え方を図にすると、下記のようなイメージです。それぞれの独立したオブジェクトが、「性質」と「メソッド」を持ちます。
+
+![https://tech-master.s3.amazonaws.com/uploads/curriculums//8eba8655c42b8e414552811b39e5bc05.png](https://tech-master.s3.amazonaws.com/uploads/curriculums//8eba8655c42b8e414552811b39e5bc05.png)
+
+以上のように、Javaはオブジェクトを中心に考える言語なので、オブジェクトの管理・生成の仕方が重要になります。そのために必要な概念が、**クラスとインスタンス**なのです。
+
+
+
+#クラスとインスタンス
+それでは、Javaの中心概念である**オブジェクト**の管理・生成方法として、**クラスとインスタンス**を学びましょう。
+
+##クラスについて理解しよう
+
+クラスとは、**とある種類のオブジェクトの共通の属性とメソッドをまとめて定義しておく型**のようなものです。
+例えば、"Hello World"という文字列と"こんにちは"という文字列は、それぞれが一つの異なるオブジェクトです。しかし、この二つのオブジェクトの間には「文字を持つ」という共通点が存在します。この性質は、実は予め**クラス**の性質として定義されているものです。
+
+同時に、この文字列の**クラス**の中には、共通で使えるメソッド(例えば、文字列オブジェクトはlengthメソッドが使用できますね）を定義できます。そして、この**クラス**に基いて文字列を作れば、文字列の中に入れる文字さえ決めれば、新たな文字列を生成できます。
+
+```Java[1]:[例]文字列クラス
+  String word1 = "Hello World";
+  String word2 = "こんにちわ";
+ //どちらも「文字を持つ」という点では共通
+```
+オブジェクトを中心にプログラムを作る場合、多数のオブジェクトを生成することになります。オブジェクト一つ一つを0から生成するとなると、相当な手間が発生します。例えば先ほどの例で、文字列を一つ作る度に「これから生成するオブジェクトは、文字を持つことができる」というところから定義していたら大変です。
+オブジェクト同士には**共通する部分**が存在することがほとんどです。共通する性質を**クラス**という型で定義しておくことで、効率的に個々のオブジェクトを生成することができます。
+
+以下のような例で考えてみましょう。
+一つ前の項で説明したように、Java的な考え方で現実世界を捉えた場合、人間一人一人、車一台一台が別々のオブジェクトになります。しかし、人間というくくりで考えるならば、別々のオブジェクトでも共通している性質を見つけることができます。例えば、人間ならば「名前を持っている」「年齢を持っている」という点は必ず共通しているでしょう。車も同様です。そこでまず、以下の図のように共通の部分をクラスとして定義します。
+
+![https://tech-master.s3.amazonaws.com/uploads/curriculums//b534563a6261d0dc716a521bc2ffb8c6.png](https://tech-master.s3.amazonaws.com/uploads/curriculums//b534563a6261d0dc716a521bc2ffb8c6.png)
+
+人クラスであれば、以下のように、属性とメソッドが定義されることになります。
+
+![https://tech-master.s3.amazonaws.com/uploads/curriculums//c286be0fdd462a7b50e6849e1da09d04.png](https://tech-master.s3.amazonaws.com/uploads/curriculums//c286be0fdd462a7b50e6849e1da09d04.png)
+
+そして、このような型を予め定義しておけば、この型に沿って、個別のオブジェクトを作ることができます。
+そうすることで、効率的に個別のオブジェクトを生産することができます。
+
+<curriculum-checkbox data-id= 5173></curriculum-checkbox>
+
+##インスタンスについて理解しよう
+
+前項で説明したように、オブジェクトを作るときはいきなりオブジェクトを生産するのではなく、オブジェクト同士で共通しそうな部分をクラスという型で定義します。
+
+そして、**クラスに基いて生み出されたオブジェクトのことをインスタンスと呼びます。**
+
+###クラスが先。クラスからインスタンスが生まれる
+
+実際にプログラムを書くときには、**オブジェクトがあらかじめ存在するということはありえません**。なので、以下の図のように、**クラスを作ってからそれに基いてインスタンスを作る**という順番でオブジェクトを作ることになります。
+
+![https://tech-master.s3.amazonaws.com/uploads/curriculums//d0e24a2e0324778715cee8574ee73aa2.png](https://tech-master.s3.amazonaws.com/uploads/curriculums//d0e24a2e0324778715cee8574ee73aa2.png)
+
+もし、人間の共通の情報を定義した**人クラス**が存在した場合、人クラスのインスタンスは以下のようになります。
+
+![https://tech-master.s3.amazonaws.com/uploads/curriculums//36e4668a4ff0539177e88545de055793.png](https://tech-master.s3.amazonaws.com/uploads/curriculums//36e4668a4ff0539177e88545de055793.png)
+
+このように、クラスには「名前」「性別」などの**属性**が定義されています。そして、クラスで定義した属性に**具体的な値が入った状態**でインスタンスが生成されます。
+
+<i class="icon information" ></i>属性と属性値
+**属性**とは、**オブジェクトが持つ情報の種類**のことです。上記の「人クラス」の例だと、「名前」とか「性別」が属性にあたります。クラスには、オブジェクトの持つ**属性**を定義します。
+**属性値**とは、**クラスで定義した属性に入る、オブジェクトが実際に持つ情報**のことです。上記の例では、「花子」とか「男」とかが属性値にあたります。インスタンスでは、クラスで定義した**属性**に、具体的な情報を入れてそれを**属性値**として持ちます。
+
+<curriculum-checkbox data-id=5174></curriculum-checkbox>
+
+###クラスとインスタンスについてのまとめ
+
+ここまでの話をまとめましょう。
+・Javaでは、すべてのデータが**オブジェクト**として扱われ、オブジェクトごとに性質や使えるメソッドを持つ
+・**オブジェクトを効率的に生成・管理**するために、**クラスとインスタンス**という概念が存在する
+・オブジェクト同士の共通の属性・メソッドをまとめて定義したものが**クラス**である
+・クラスに基いて生成されたオブジェクトが**インスタンス**
+・実際にプログラムを書くときでは、必ず**クラス**を定義して、その**クラスに基いてインスタンスを生成する**という順番でオブジェクトを生成する。
+
+<curriculum-checkbox data-id=5175></curriculum-checkbox>
+
+# 実際のコードでクラスとインスタンスを理解しよう
+
+クラスとインスタンスはこの章で初めて紹介した概念ですが，実はこれまでのカリキュラムで書いてきたコードも、**クラスとインスタンス**に基いて書かれています。**Javaのオブジェクトは、全ていずれかのクラスのインスタンス**です。
+例えば、今まで使っていた"Hello World"のような文字列は**Stringクラスのインスタンス**です。
+
+```Java[1]:[例]Stringクラス
+  String word1 = "Hello World";     // インスタンス
+  String word2 = "こんにちわ　Java";  // インスタンス
+```
+この"Hello World"と"こんにちは"は、それぞれ文字列のオブジェクトです。もちろん中身の文字は違いますが、**文字を持つということは共通しています**。
+さらに、文字列のオブジェクトであれば、以下のように**共通のメソッドが使用できます**。
+
+```Java[1]:[例]Stringクラス
+  string1 = "Hello World";
+  string2 = "こんにちわ";
+
+  // どちらもlengthメソッドが使える
+  System.out.println(string1.length);
+  System.out.println(string2.length);
+```
+
+![https://tech-master.s3.amazonaws.com/uploads/curriculums//2370fbea603d9fe41239b5258975438e.png](https://tech-master.s3.amazonaws.com/uploads/curriculums//2370fbea603d9fe41239b5258975438e.png)
+
+ここで一つ疑問に思うことがあるかもしれません。
+文字列は使用していても、Stringクラスなどというクラスを定義したことはないはずです。
+実は、Javaには**あらかじめ定義されているクラス**が存在します。今とりあげたStringクラスを始め、配列オブジェクトの**Arrayクラス**、数値オブジェクトの**Integerクラス**、ハッシュオブジェクト（HashMapなど）の**Hashクラス**などです。
+
+ここまでのカリキュラムで書いてきたコードで使用したオブジェクトは、全て、このような**あらかじめ定義されているクラスのインスタンス**です。そして、これらのクラスに定義されたメソッドを使用しました。
+
+上の項で説明したように、Javaでオブジェクトを生成するときは、必ず**クラスを定義して、そのクラスに基いてインスタンスを生成する**という作業が必要です。
+
+文字列や数値などのよく使うであろうオブジェクトを、エンジニアがコードを書くたびにいちいちクラスから定義していたら相当な手間がかかります。そのため、こうした良く利用されるオブジェクトについてはあらかじめクラスが定義されています(そしてJavaの奥に隠されています)。
+
+
+##クラスとインスタンスを実際につかってみよう
+ここからは、実際にコード上でクラスを定義し、インスタンスを生成することでアプリケーションを作成してみましょう。
+
+これから作るアプリケーションの機能自体は、一つ前のカリキュラムまでで作った**レビュー管理アプリケーション** と同じものになります。
+ただし、以前作ったものでは、**クラスとインスタンス**の定義・生成は行いませんでした。自分でクラスを定義しなくても、文字列クラス、配列クラス、数値クラス、ハッシュクラスなどの**Javaにあらかじめ用意されているクラス**とそのインスタンスを組み合わせることで機能を実現していたためです。
+
+しかし今回は、アプリケーションで管理する**レビューのクラスを定義**し、それに基いて**レビューのインスタンスを生成**して管理していきます。
+
+それでは、今回のアプリで**どのようなオブジェクトが必要**で、そのオブジェクトを扱うためにどのような**クラスとインスタンス**を作るべきか考えてみましょう。
+今回のアプリで使用するオブジェクトは**レビュー**です。レビューはどれも**タイトル**、**ジャンル**、**感想**の三つの属性を持っています。そして、**レビューを書く**ことと**レビューを読む**ことができました。なので、以下のようなクラスとインスタンスの設計になります。
+
+![https://tech-master.s3.amazonaws.com/uploads/curriculums//f916c6537bbaa72121f5a014907ac221.png](https://tech-master.s3.amazonaws.com/uploads/curriculums//f916c6537bbaa72121f5a014907ac221.png)
+
+
+##クラスを作ってみよう
+以下のような属性と処理をもつクラスを実際にコードで表現できるようになりましょう。
+
+![レビュークラス](https://tech-master.s3.amazonaws.com/uploads/curriculums/images/Ruby4/05.png)
+
+##クラスを定義しよう
+まずは、クラスを定義します。クラスの定義は以下のように行います。
+
+```Java[1]:クラスの定義
+public class クラス名{
+// 変数やメソッドの定義を以下にしていく
+}
+```
+
+<i class="icon attention"></i> **クラス名のルール**
+クラス名は半角英大文字から始めます。
+例: `User` `Account` `Image` `Group` など
+
+<i class="icon pen"></i> **Review2.javaにReviewクラスを定義しましょう**
+
+Reviewクラスの定義
+
+```Java[1]:Review2.java
+public class Review2{
+}
+```
+
+これで、最もシンプルなクラスの定義ができました。
+
+<curriculum-checkbox data-id=5177></curriculum-checkbox>
+
+
+##インスタンスを生成しよう
+定義したクラスからインスタンスを生成してみましょう。
+インスタンスは、クラスの**new演算子**を使用することにより生成されます。
+
+![インスタンスの生成2](https://tech-master.s3.amazonaws.com/uploads/curriculums/images/Ruby4/07.png)
+
+
+<i class="icon pen"></i> **Reviewクラスのインスタンス、reviewを生成しましょう**
+
+まずは下記のように`Review2.java`を編集します。
+
+```Java[1]:Review2.java
+public class Review2{
+ public static void main(String[] args){
+  Review2 review = new Review2(); // Reviewクラスのインスタンスを生成
+  System.out.println(review);
+ }
+}
+```
+このように、クラスの定義と通常のJavaの記述は同じファイル内に書くことができます。
+続いて、コンソールから`Review2.java`を実行しましょう。
+
+```bash[1]:result
+Review2@6e0be858
+#上記の様に出力される
+```
+
+上記のように表示されればReviewクラスのインスタンスの生成に成功しています。
+この`new演算子を使用する`インスタンス生成のコードは、**クラスがメソッドを利用している**形です。今は「そういうものなんだ」と思って、丸暗記してしまいましょう。のちほど詳解します。
+
+これで、あるクラスからインスタンスを生成できるようになりました。
+
+この段階では、空のクラスを作り、そこからインスタンスを生成しただけです。
+ですので、章の冒頭で説明したようなクラスが持つ**属性**（「タイトル」や「ジャンル」）や、各インスタンスが持つ**属性値**（「もののけ姫」や「映画」）が存在しません。また、クラスのインスタンスが利用できるメソッドも定義されていません。
+
+<curriculum-checkbox data-id=5178></curriculum-checkbox>
+
+# クラスメソッドとインスタンスメソッド
+本項では、そのうちの**メソッドの定義の仕方**について理解しましょう。
+クラスに定義できるメソッドには、**クラスメソッド**と**インスタンスメソッド**の2種類があります。
+
+### <i class="icon information", id="term_110"></i> クラスメソッド
+クラスが使用できるメソッドです。クラスメソッドを定義したクラス自身が使用できます。**クラスで共通の情報を使った処理**に使用します。
+
+### <i class="icon information", id="term_111"></i> インスタンスメソッド
+インスタンスが使用できるメソッドです。インスタンスメソッドを定義したクラスのインスタンスに使用できます。**インスタンスごとの個別の情報（属性値）を使った処理**に使用します。
+
+レビュー管理アプリケーションの**レビュークラス**で説明すると以下のようになります。
+
+![https://tech-master.s3.amazonaws.com/uploads/curriculums//fdf251c38511c8167fce2312df9eabd9.png](https://tech-master.s3.amazonaws.com/uploads/curriculums//fdf251c38511c8167fce2312df9eabd9.png)
+
+###クラスメソッドとインスタンスメソッドの違い
+
+クラスメソッドは、インスタンスの親玉であるクラス自身が利用する技です。
+例えば、レビューの総数ならば、これは個々のレビューではなくレビュークラスが扱うべき情報です。
+
+インスタンスメソッドは、各インスタンスが行う技です。例えば「レビューの内容を表示する」メソッドは、各レビューのインスタンスの属性値を使用するので、インスタンスメソッドとして定義するのがふさわしいでしょう。
+
+
+##クラスメソッドを利用してみよう
+では、実際にコードに反映させメソッドを利用してみましょう。
+クラスメソッドの定義と呼び出しは以下のように行います。
+
+**- 定義**
+
+クラスメソッドの定義の仕方はいくつかありますが、すべてクラスの定義内で行います。クラスメソッドはメソッド名の前に`static`を付けます。
+
+```Java[1]:
+public class クラス名{
+  public static void メソッド名(){
+      // 処理
+ }
+}
+```
+
+<i class="icon attention"></i> **メソッド名のルール**
+メソッド名の最初の文字は小文字、言葉の区切りのみ大文字にするキャメルケース記法で記述します。
+例：`addItems()``getCount()``setData()`など
+
+**- 呼び出し**
+
+呼び出しは、そのままメソッド名を書きます。引数は()の中にいれます。これは今までと同じ書き方です。
+クラス名.メソッド名という書き方もできますが、現在はメソッド名のみの記述で構いません。
+
+```Java[1]:
+メソッド名(引数);
+or
+クラス名.メソッド名(引数);
+
+例：
+sample();
+Sample.sample();
+//Review2.javaの場合
+```
+
+では、Reviewクラスにクラスメソッドを定義してみましょう。ここで定義するメソッドは**書いたレビューの数を返す**というメソッドです。前項で説明したように、書いたレビューの数は、**Reviewクラスのインスタンスの数**なので、**クラスで共通の情報**ですよね。ですので、クラスメソッドを使用します。メソッド名は`getReviewCount`にしましょう。
+
+<i class="icon pen"></i> **下記のコードを記入してReviewクラスにクラスメソッド`getReviewCount`を定義してください**
+
+```Java[1]{2,3,4}:
+public class Review2{
+  public static int getReviewCount(){
+    return 0;
+  }
+}
+```
+今までメソッドの定義はpublic static `void`でやっていましたが、今回public static `int`となっています。実はメソッドにも型があるのでそれを学びましょう。
+
+##メソッドの型
+
+今まで使っていた`void`は`戻り値なし`という型で、voidを使って宣言されたメソッから何も値が返ってきません。しかし、**intやStringという型を使うことで、それぞれint型やString型の値を返せるようになります。**intやStringで宣言した場合はreturn文を用いて返り値を用意する必要があります。詳しい使い方は以下に記述してあります。
+
+```Java
+public static 型名 メソッド名(){
+ //処理
+ //void以外の文は以下の様なreturn文が必要になる
+ retun (メソッドの型と同じ型の)値;
+}
+
+例：
+public class Review2{
+ public static void main(String[] args){
+  system.out.prinltn(returnNum());
+ }
+ public static int returnNum(){
+  int num = 1;
+  return num;
+ }
+}
+//上記のプログラムを実行することでreturnNum()が呼ばれて1が出力される
+```
+<i class="icon attention"></i>int型で定義している時に文字列を返したり、何も値を返さないとエラーになってしまいますので気をつけましょう。逆にvoid型を定義している時に数字などを返すことはできませんが、以下の様に空のreturn文を記述することでそのメソッドを抜け出すことができます。
+
+```java
+public static void sample(){
+ int num = 1;
+ return;
+  //return文を用いることで、ここで処理を終了させる
+ //これより下に記述したことは実行されない
+ System.out.println(num); //上でreturn文を記述しているので、ここまで処理が届かず何も出力されない
+}
+```
+
+ここで本題に戻り、数を返すのでreturn文を使ってレビュー数を返すようにします。この後に、実際に書いたレビューの数を返すようにしますが、今のところは便宜的に0を返すようにします。
+
+<curriculum-checkbox data-id=5180></curriculum-checkbox>
+
+<i class="icon pen"></i> **下記のコードを記入してクラスメソッド`getReviewCount`を呼び出してください**
+
+```Java[1]{10}:Review2.java
+public class Review2{
+ public static void main(String[] args){
+  System.out.println(getReviewCount());
+ }
+  public static int getReviewCount(){
+    return 0;
+  }
+}
+```
+
+最後に0と表示されたでしょうか。
+<curriculum-checkbox data-id=5182></curriculum-checkbox>
+<curriculum-checkbox data-id=5183></curriculum-checkbox>
+
+##インスタンスメソッドを定義しよう
+インスタンスメソッドの定義と呼び出しは以下のように行います。
+
+**- 定義**
+
+インスタンスメソッドの定義はそのインスタンスのクラスの定義内で行います。普通のメソッドと書き方は同じです。
+
+```Java[1]:
+  class クラス名{
+    public void メソッド名(){
+      // 処理
+    }
+  }
+```
+
+**- 呼び出し**
+
+呼び出しは、インスタンスに続けてメソッド名を書きます。インスタンスメソッドからインスタンスメソッドを呼ぶ時はメソッド名をそのまま記述することができますか、クラスメソッドから呼ばれた時はそのまま記述することはできません。引数は()の中にいれます。ここは普通のメソッドと同様です。
+
+```Java[1]:
+インスタンス.メソッド名(引数);
+メソッド(引数);
+//インスタンスメソッドからは可能だが、クラスメソッドからは不可
+
+例：
+public class Review2 {
+    public static void main(String[] args){
+        Sample sample = new Sample(); //インスタンスを生成
+        sample.example(); //クラスメソッドからインスタンスメソッドを呼ぶ
+        example();//クラスメソッドからこのようには呼べず、エラー
+    }
+    public void example(){
+        Sample sample = new Sample();
+        sample.sample(); //インスタンスメソッドからインスタンスメソッドを呼ぶ時はどっちでも可
+        sample(); //同上
+    }
+    public void sample(){
+    }
+}
+```
+
+では、Reviewクラスにインスタンスメソッドを定義してみましょう。ここで定義するメソッドは**レビューの内容を表示する**というメソッドです。先の項で説明した通り、**レビューの内容**は、**Reviewクラスのインスタンスごとの個別の値(属性値)**ですよね。インスタンスが個別に持つ値を利用したいので、インスタンスメソッドとして定義します。
+メソッド名は`showReview`にしましょう。
+
+<i class="icon pen"></i> **下記のコードを記入してReviewクラスにインスタンスメソッド`showReview`を定義してください**
+
+```Java[1]{10,11,12,13,14,15,16,17,18}:Review2.java
+public class Review2{
+    public static  void main(String[] args){
+        System.out.println(getReviewCount());
+    }
+
+    public static int getReviewCount(){
+     return 0;
+    }
+
+    public void showReview(){
+        System.out.println("ジャンル : " + "映画");
+        System.out.println("---------------------------");
+        System.out.println("タイトル : " + "るろうに剣心");
+        System.out.println("---------------------------");
+        System.out.println("感想 :");
+        System.out.println("アクションがすごい！");
+        System.out.println("---------------------------");
+    }
+}
+```
+
+
+ここも最終的には実際に作成したレビューの内容（Reviewクラスのインスタンスの属性値）を表示するようにしますが、まずは便宜的にテンプレートのレビューを返すようにします。
+
+<curriculum-checkbox data-id=5184></curriculum-checkbox>
+
+では、いま定義したインスタンスメソッドを呼び出してみましょう。
+
+<i class="icon pen"></i> **下記のコードを記入してインスタンスメソッド`showReview`を呼び出してください**
+
+```Java[1]{5}:Review2.java
+public class Review2 {
+    public static  void main(String[] args){
+        Review2 review = new Review2(); // Reviewクラスのインスタンスを生成System.out.println(review);
+        System.out.println(getReviewCount());
+        review.showReview();
+    }
+
+    public static int getReviewCount(){
+        return 0;
+    }
+
+    public void showReview(){
+        System.out.println("ジャンル : " + "映画");
+        System.out.println("---------------------------");
+        System.out.println("タイトル : " + "るろうに剣心");
+        System.out.println("---------------------------");
+        System.out.println("感想 :");
+        System.out.println("アクションがすごい！");
+        System.out.println("---------------------------");
+    }
+}
+```
+
+ちゃんとレビューが表示されたでしょうか。しかし、このままではこの`Review2`クラスのインスタンスはいくつ生成しても決まった値しか返してくれませんね。
+
+<curriculum-checkbox data-id=5185></curriculum-checkbox>
+
+# クラスメソッドとインスタンスメソッドの違い
+
+一度クラスメソッドとインスタンスメソッドの違いを整理しておきましょう。
+
+クラスメソッドは、**クラスに対して使用**し、**クラスで共通の情報**を使用します。つまり、**インスタンスの個別の情報は関係ありません**。
+インスタンスメソッドは、**インスタンスに対して使用**し、**インスタンスごとに異なる個別の情報**を使用します。
+
+書き方の違いも確認しておきましょう。**両方ともクラスの定義内に書きます**。しかし、**クラスメソッドは`public static void `のようにstaticを型宣言の前につけ、インスタンスメソッド`public void`のようにstaticをつけません**。
+
+- インスタンスメソッドとクラスメソッドの違い
+
+特徴|インスタンスメソッド|クラスメソッド|
+:-:|:-:|:-:
+定義方法|型宣言の前にstaticはつけない|型宣言の前にstaticをつける
+用途|インスタンスごとの属性を用いる場合|属性は関係のない共通の処理
+呼び出せるオブジェクト|クラスのインスタンス|クラス自身
+
+これで、クラスに定義する情報である**共通の属性・メソッド**のうち、**メソッド**について学習しました。次項では、**共通の属性**について学習しましょう。
+
+<curriculum-checkbox data-id=5187></curriculum-checkbox>
+
+##クラス変数とインスタンス変数を理解しよう
+
+ここからは**共通の属性**の定義の方法を学びましょう。
+
+クラスでは、共通の属性は**変数**として定義します。そして、その変数に代入した値が属性値です。
+そして、その変数は、**クラス変数**と**インスタンス変数**にわかれます。
+
+クラスに定義できる変数には**クラス変数**と**インスタンス変数**の2種類あります。
+
+### <i class="icon information", id="term_113"></i> クラス変数
+クラス全体で使用できる変数です。クラス内であればどこでも使えるのでクラスメソッド、インスタンスメソッドの両方で使うことが出来ます。**クラスを通して、値が共通の情報**に使用します。
+
+### <i class="icon information", id="term_114"></i> インスタンス変数
+共通の属性としてインスタンスに定義できる変数です。その値は、個々のインスタンスによって別々に設定できます。
+
+**レビュー管理アプリケーション**で使用される情報を、クラス変数・インスタンス変数に分けると以下のようになります。
+
+![https://tech-master.s3.amazonaws.com/uploads/curriculums//fc67b4e1ec12f9313e016a35f653a2a6.png](https://tech-master.s3.amazonaws.com/uploads/curriculums//fc67b4e1ec12f9313e016a35f653a2a6.png)
+
+まず、**作成されたレビューの総数**は、**クラス内で変わらない共通の情報**です。なので、**クラス内のどこでも参照される**べきです。ですので、**クラス変数を使用します。**
+一方で、**タイトル**や**感想**は、各レビューごとに異なります。抽象的に言えば、**各インスタンスごとに値のことなる情報**です。そのため、**インスタンス変数**を使用します。
+
+<curriculum-checkbox data-id=5188></curriculum-checkbox>
+
+##インスタンス変数を定義しよう
+インスタンス変数は今まで書いていた変数になりますので、書き方で新しく覚えることはありません。
+
+```Java[1]:sample
+int num = 1;
+String word = "Hello";
+//今まで通りの定義
+```
+**インスタンス変数を定義すると、そのインスタンスの固有の値として定義されます。**
+では、Reviewクラスのインスタンスの属性として、インスタンス変数を定義してみましょう。ここで定義する変数は**タイトル、ジャンル、感想**です。変数名は`title`、`genre`、`impression`にしましょう。
+
+<i class="icon pen"></i> **下記のコードを記入して、インスタンス変数`title`、`genre`、`impression`を定義し、新しくインスタンスメソッド`writeReview`を定義してください**
+
+```Java[1]{4,5,6,18,19,20,21,22,23,24,25}:Review2.java
+import java.util.*;
+
+public class Review2{
+    String title;
+    String genre;
+    String impression;
+    public  static void main(String[] args){
+        Review2 review = new Review2();
+        review.writeReview();
+        review.showReview();
+        System.out.println(Review2.getReviewCount());
+    }
+
+    public static int getReviewCount(){
+        return 0;
+    }
+
+    public void writeReview(){
+        System.out.println("タイトルを入力してください");
+        title = new Scanner ( System.in ).nextLine ();
+        System.out.println("ジャンルを入力してください");
+        genre = new Scanner ( System.in ).nextLine ();
+        System.out.println("感想を入力してください");
+        impression = new Scanner ( System.in ).nextLine ();
+    }
+
+    public void showReview(){
+        System.out.println("ジャンル : " + "映画");
+        System.out.println("---------------------------");
+        System.out.println("タイトル : " + "るろうに剣心");
+        System.out.println("---------------------------");
+        System.out.println("感想 :");
+        System.out.println("アクションがすごい！");
+        System.out.println("---------------------------");
+    }
+}
+```
+
+writeReviewメソッド内で、自分が入力した値が、インスタンス変数`title`、`genre`、`impression`に代入されるようにしました。
+
+上記のコードの処理の流れを追ってみましょう。
+
+8行目でReviewクラスのインスタンスを生成します。次に、9行目の`review.writeReview()`という記述により、8行目で生成した`review`クラスのインスタンスが`writeReview`というインスタンスメソッドを使用しています。その`writeReview`メソッド内で、インスタンス変数`title`、`genre`、`impression`の定義をします。つまり、インスタンスが生成された直後に、インスタンスの属性値（インスタンス変数）を設定するようにしました。
+
+<curriculum-checkbox data-id=5189></curriculum-checkbox>
+
+
+では、いま定義したインスタンス変数`title`、`genre`、`impression`を活用してみましょう。あるインスタンスのインスタンス変数の値は、そのインスタンスが利用したメソッドの中で、以下のように利用できます。
+
+<i class="icon pen"></i> **下記のコードを記入してインスタンスメソッド`showReview`をインスタンス変数`title`、`genre`、`impression`を使って書き直してみましょう**
+
+```Java[1]{28,29,30,31}:Review2.java
+import java.util.*;
+
+public class Review2{
+    String title;
+    String genre;
+    String impression;
+    public  static void main(String[] args){
+        Review2 review = new Review2();
+        review.writeReview();
+        review.showReview();
+        System.out.println(Review2.getReviewCount());
+    }
+
+    public static int getReviewCount(){
+        return 0;
+    }
+
+    public void writeReview(){
+        System.out.println("タイトルを入力してください");
+        title = new Scanner ( System.in ).nextLine ();
+        System.out.println("ジャンルを入力してください");
+        genre = new Scanner ( System.in ).nextLine ();
+        System.out.println("感想を入力してください");
+        impression = new Scanner ( System.in ).nextLine ();
+    }
+
+    public void showReview(){
+        String line = "----------------------------------------------";
+        System.out.println("ジャンル : " + genre + "\n" + line);
+        System.out.println("タイトル : " + title + "\n" + line);
+        System.out.println("感想 :" + impression + "\n" + line);
+    }
+}
+```
+
+これで、writeReviewメソッドで定義した**インスタンスの属性値（インスタンス変数）**をshowReiviewメソッドで参照できるようにしました。
+
+ここで大切なのは**インスタンス変数の値は、そのインスタンス毎固有の値になる**ということです。
+
+<curriculum-checkbox data-id=5190></curriculum-checkbox>
+
+<i class="icon pen"></i> **実際にReview2.javaを実行して、処理の流れを理解しましょう**
+
+手順を順に追っていくと以下のようになります。
+**1.  8行目で、Reviewクラスのインスタンスを生成する**
+**2. 9行目で、8行目で作成したインスタンスがwriteReviewメソッドを使用し、インスタンス変数に値を入れることで、インスタンスの属性値を定義する。**
+**3. 10行目で、8行目で作成したインスタンスに対してshowReviewメソッドを使用し、writeReviewメソッドで定義したインスタンスの属性値を参照する。**
+
+<curriculum-checkbox data-id=5192></curriculum-checkbox>
+
+##クラス変数を定義しよう
+次に、クラス変数を定義しましょう。クラス変数は、クラスの範囲内であればどこからでも参照できる変数です。クラス変数は型宣言の前に**static**をつけて宣言します。
+
+```Java[1]:
+  class クラス名{
+     static クラス変数
+  }
+
+例：
+static int num = 0;
+```
+では、Reviewクラスにクラス変数を定義してみましょう。ここで定義する変数は**書いたレビューの数**が代入されることとします。変数名は`reviewCount`にしましょう。
+
+<i class="icon pen"></i> **下記のコードを記入してReviewクラスにクラス変数`reviewCount`を定義して、getReviewCountメソッドの返り値をreviewCountにください**
+
+```Java[1]{7,16}:Review2.java
+import java.util.*;
+
+public class Review2{
+    String title;
+    String genre;
+    String impression;
+    static int reviewCount = 0;
+    public  static void main(String[] args){
+        Review2 review = new Review2();
+        review.writeReview();
+        review.showReview();
+        System.out.println(Review2.getReviewCount());
+    }
+
+    public static int getReviewCount(){
+        return reviewCount;
+    }
+
+    public void writeReview(){
+        System.out.println("タイトルを入力してください");
+        title = new Scanner ( System.in ).nextLine ();
+        System.out.println("ジャンルを入力してください");
+        genre = new Scanner ( System.in ).nextLine ();
+        System.out.println("感想を入力してください");
+        impression = new Scanner ( System.in ).nextLine ();
+    }
+
+    public void showReview(){
+        String line = "----------------------------------------------";
+        System.out.println("ジャンル : " + genre + "\n" + line);
+        System.out.println("タイトル : " + title + "\n" + line);
+        System.out.println("感想 :" + impression + "\n" + line);
+    }
+}
+```
+
+
+クラスの定義の一番最初に`reviewCount`を定義します。レビュー数は最初0なので0を代入します。
+これで、**クラスを通して共通の情報**であるレビュー数を、**0**として定義しています。そして、16行目で**getReviewCountクラスメソッドを使い**、reviewCountに定義した値を参照しています。
+
+しかし、このままでは、レビューが作成されても、レビューの数は0のままになってしまいます。そこで、**レビューが作成されるごとに、reviewCountの値が更新される**ようにしましょう。
+
+<i class="icon pen"></i> **下記のコードを記入して、レビューが作成されるごとに、Reviewクラスにクラス変数`reviewCount`が更新されるようにしてください。**
+
+```Java[1]{26}:Review2.java
+import java.util.*;
+
+public class Review2{
+    String title;
+    String genre;
+    String impression;
+    static int reviewCount = 0;
+    public  static void main(String[] args){
+        Review2 review = new Review2();
+        review.writeReview();
+        review.showReview();
+        System.out.println(Review2.getReviewCount());
+    }
+
+    public static int getReviewCount(){
+        return reviewCount;
+    }
+
+    public void writeReview(){
+        System.out.println("タイトルを入力してください");
+        title = new Scanner ( System.in ).nextLine ();
+        System.out.println("ジャンルを入力してください");
+        genre = new Scanner ( System.in ).nextLine ();
+        System.out.println("感想を入力してください");
+        impression = new Scanner ( System.in ).nextLine ();
+        reviewCount = reviewCount++;
+    }
+
+    public void showReview(){
+        String line = "----------------------------------------------";
+        System.out.println("ジャンル : " + genre + "\n" + line);
+        System.out.println("タイトル : " + title + "\n" + line);
+        System.out.println("感想 :" + impression + "\n" + line);
+    }
+}
+```
+
+writeReivewメソッド内に、reviewCountの値を１増やして更新するようにしました。こうすることで、レビューが作成されるごとに、レビューの数を記録するクラス変数**reviewCount**の値が１ずつ増えていくようになりました。
+
+<i class="icon attention"></i> 7行目で`reviewCount = 0`と書いてありますが、ここが呼ばれるのはクラスを定義した最初の一回だけです。この`reviewCount = 0`によって毎回reviewCountの値が0になってしまうことはありません。
+
+実際に、`Review2.java`を実行してみましょう。レビューを作成すると、「1」と出力されましたでしょうか。
+
+<curriculum-checkbox data-id=5193></curriculum-checkbox>
+
+##クラス変数とインスタンス変数の違いを理解しよう
+改めて、クラス変数とインスタンス変数の使い方・違いについて理解しておきましょう。
+
+クラス変数は、**クラスで共通の情報**に対して使用するのでした。つまり、クラスを通して、**１つの値**となります。
+インスタンス変数は、**インスタンスごとに異なる個別の情報（属性値）**に対して使用します。つまり、**インスタンスごとに値は異なります**。
+
+**人クラス**でイメージすると以下のようになります。
+
+![https://tech-master.s3.amazonaws.com/uploads/curriculums//0d24aa193b237783809bf96357e3f622.png](https://tech-master.s3.amazonaws.com/uploads/curriculums//0d24aa193b237783809bf96357e3f622.png)
+
+このように、クラス内で変わらない共通の情報には、**staticを付けるクラス変数を使用します。**
+そして、**インスタンスごとに異なる個別の情報**には、**staticがつかないインスタンス変数を使用します。**
+
+さらに、インスタンス変数について見ると以下のようになります。
+
+![https://tech-master.s3.amazonaws.com/uploads/curriculums//1d302e227ac18f8466866e21ed555cc5.png](https://tech-master.s3.amazonaws.com/uploads/curriculums//1d302e227ac18f8466866e21ed555cc5.png)
+
+このように、**インスタンス変数**は、**同じ変数名でもインスタンスごとに値が異なる**のです。つまり、インスタンスが複数生成されている場合、**各インスタンスごとにインスタンス変数の値を定義する**ということになります。
+
+![クラス変数](https://tech-master.s3.amazonaws.com/uploads/curriculums/images/Ruby4/08.png)
+
+しかし、インスタンス変数はインスタンスでしか使えず、**その値もインスタンスごとに違います。
+
+![インスタンス変数](https://tech-master.s3.amazonaws.com/uploads/curriculums/images/Ruby4/09.png)
+
+では最後にインスタンスごとにインスタンス変数の値が異なることを確認しましょう。Javaの4章の知識を使って、以下のように`Review2.java`を書き換えてみます。
+
+- メニュー画面を作成して何回もレビューを書けるようにする
+- メニュー画面で今まで書いたレビューの数を表示する
+
+<i class="icon pen"></i> **Review2.javaを以下のように書き換えて、実行してみましょう**
+
+
+```Java[1]{9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}:Review2.java
+import java.util.*;
+
+public class Review2{
+    String title;
+    String genre;
+    String impression;
+    static int reviewCount = 0;
+    public  static void main(String[] args){
+        while(true){
+            // メニューの表示
+            System.out.println("書いたレビューの数" + Review2.getReviewCount());
+            System.out.println("[0]レビューを書く/読む");
+            System.out.println("[1]アプリを終了");
+            int input = new Scanner(System.in).nextInt();
+
+            if(input == 0){    // レビューを書く
+                Review2 review = new Review2();
+                review.writeReview();
+                review.showReview();
+            }else if(input == 1){ // アプリを終了
+                System.exit(0);
+            }else{             // その他の入力
+                System.out.println("入力された値は無効な値です");
+            }
+        }
+    }
+
+    public static int getReviewCount(){
+        return reviewCount;
+    }
+
+    public void writeReview(){
+        System.out.println("タイトルを入力してください");
+        title = new Scanner ( System.in ).nextLine ();
+        System.out.println("ジャンルを入力してください");
+        genre = new Scanner ( System.in ).nextLine ();
+        System.out.println("感想を入力してください");
+        impression = new Scanner ( System.in ).nextLine ();
+        reviewCount = reviewCount++;
+    }
+
+    public void showReview(){
+        String line = "----------------------------------------------";
+        System.out.println("ジャンル : " + genre + "\n" + line);
+        System.out.println("タイトル : " + title + "\n" + line);
+        System.out.println("感想 :" + impression + "\n" + line);
+    }
+}
+
+```
+
+これでレビューを自分で書けるようになり、Reviewクラスのインスタンスを複数つくれるようになりました。17行目から19行目をみてください。
+
+```Java[17]:Review2.java
+  Review2 review = new Review2();
+  review.writeReview();
+  review.showReview();
+```
+
+`[0]レビューを書く`を選択したときにこの部分の処理が実行されます。**レビューを書くごとに新しくReviewクラスのインスタンスを生成している**ことがわかります。インスタンス変数はインスタンスごとに異なり(ジャンル、タイトル、感想)、クラス変数はクラス全体で１つだけ(レビュー数)となっています。例えばレビューを3回書くとすると、以下の図のようになります。
+
+![インスタンス変数](https://tech-master.s3.amazonaws.com/uploads/curriculums//e0ea4201f1271890903e93b116a376f7.png)
+
+
+**クラス変数とインスタンス変数の違い**
+
+<table>
+  <tbody>
+    <tr>
+      <th></th>
+      <th scope="col"> クラス変数 </th>
+      <th colspan="2" scope="col"> インスタンス変数 </th>
+    </tr>
+    <tr>
+      <td>変数名</td>
+      <td>最初に static をつける </td>
+      <td>最初に static をつけない</td>
+    </tr>
+    <tr>
+      <td>値</td>
+      <td>クラスとインスタンスで共通</td>
+      <td>インスタンスごとに異なる </td>
+    </tr>
+  </tbody>
+</table>
+
+
+##コンストラクタをつかってみよう
+`コンストラクタ`について学習しましょう。コンストラクタを定義することで、**インスタンスの生成と同時に実行したい処理を自動的に実行することができます**。
+**インスタンスの生成と同時に実行したい処理**というのは、例えば、**インスタンスの属性値の設定**などです。
+今回作っている**レビュー管理アプリケーション**では、new演算子でインスタンスを作成した直後に、インスタンスにwriteReviewメソッドを実行させることで、インスタンスの属性値を設定していました。属性値の設定の処理をインスタンスの生成の次の行に書くことでインスタンスが生成されたら必ず属性値が設定されるようにしていましたが、本来属性値の設定は、**インスタンスの生成とセットで**実行されるべきです。なぜならば、**何らかのレビューなのに各属性値を持っていないわけがないからです。**
+そこで、これから学習する**コンストラクタ**を使用します。
+
+### <i class="icon information", id="term_112"></i> コンストラクタ
+コンストラクタはインスタンスが生成された瞬間に、今まさに生成されたそのインスタンスに必ず実行されます。以下に例を記述します。
+
+```Java
+public class クラス名{
+    public クラス名(){
+        //ここに処理を記述
+    }
+}
+
+例：
+public class Sample{
+    static int count = 0;
+    public static void main(String[] args){
+        Sample sample = new Sample();//インスタンスを生成することでコンストラクタが呼ばれる
+    }
+    public Sample(){
+        count++;
+        System.out.println("インスタンスを生成した回数：" + count);
+    }
+}
+```
+
+<i class="icon attention"></i>コンストラクタの具体的内容は自分で書く必要があります。インスタンス生成のときに何か処理を行いたいときはコンストラクタに書くようにしましょう。
+
+上記の例を見てみましょう。11行目の記述によって、クラス名のインスタンスが生成されます。このインスタンスが生成されたタイミングで、コンストラクタが自動的に実行されます。今、コンストラクタでは`”インスタンスを生成した回数：(変数の値)”`を出力するという記述がされているので実行すると、インスタンスを生成した回数がコンソールに表示されます。
+
+ではReviewクラスにコンストラクタを定義してみましょう。
+
+<curriculum-checkbox data-id=5194></curriculum-checkbox>
+
+<i class="icon pen"></i> **下記のコードを記入してReviewクラスにコンストラクタを定義しましょう**
+
+```Java[1]{28,29,30}:Review2.java
+import java.util.*;
+
+public class Review2{
+    String title;
+    String genre;
+    String impression;
+    static int reviewCount = 0;
+    public  static void main(String[] args){
+        while(true){
+            // メニューの表示
+            System.out.println("書いたレビューの数" + Review2.getReviewCount());
+            System.out.println("[0]レビューを書く/読む");
+            System.out.println("[1]アプリを終了");
+            int input = new Scanner(System.in).nextInt();
+
+            if(input == 0){    // レビューを書く
+                Review2 review = new Review2();
+                review.writeReview();
+                review.showReview();
+            }else if(input == 1){ // アプリを終了
+                System.exit(0);
+            }else{             // その他の入力
+                System.out.println("入力された値は無効な値です");
+            }
+        }
+    }
+
+    public Review2(){
+        System.out.println("Reviewクラスのインスタンスが生成されました");
+    }
+
+    public static int getReviewCount(){
+        return reviewCount;
+    }
+
+    public void writeReview(){
+        System.out.println("タイトルを入力してください");
+        title = new Scanner ( System.in ).nextLine ();
+        System.out.println("ジャンルを入力してください");
+        genre = new Scanner ( System.in ).nextLine ();
+        System.out.println("感想を入力してください");
+        impression = new Scanner ( System.in ).nextLine ();
+        reviewCount = reviewCount++;
+    }
+
+    public void showReview(){
+        String line = "----------------------------------------------";
+        System.out.println("ジャンル : " + genre + "\n" + line);
+        System.out.println("タイトル : " + title + "\n" + line);
+        System.out.println("感想 :" + impression + "\n" + line);
+    }
+}
+```
+
+38行目でレビューを書かせる`writeReview`メソッドを呼ぶ前に37行目で`Review2 review = new Review2()`でコンストラクタが呼ばれます。
+レビューを書かせる指示が表示される前に、"Reviewクラスのインスタンスが生成されました"と表示されたでしょうか。
+
+<curriculum-checkbox data-id=5195></curriculum-checkbox>
+
+次に、コンストラクタ内の記述を編集して、インスタンスの生成と同時に、レビューが作成され、さらにレビューの総数のカウントも増やすようにしましょう。
+
+<i class="icon pen"></i> **下記のようにコードを編集して、コンストラクタ内に、writeReviewメソッド内の記述を移動させ、writeReviewメソッドの記述を削除しましょう。**
+
+
+```Java[1]{8,9,10,11,12,13,14,33,34}:Review2.java
+
+public class Review2{
+   static reviewCount = 0;
+  public static int getReviewCount(){
+    return reviewCount;
+  }
+
+  public void initialize(){
+    System.out.println("タイトルを入力してください");
+    title = new Scanner ( System.in ).nextLine ();
+    System.out.println("ジャンルを入力してください");
+    genre = new Scanner ( System.in ).nextLine ();
+    System.out.println("感想を入力してください");
+    impression = new Scanner ( System.in ).nextLine ();
+    reviewCount = reviewCount++;
+  }
+
+  public void showReview(){
+    line = "---------------------------";
+    System.out.println("ジャンル : );//{genre}\n#{line}\n"
+    System.out.println("タイトル : );//{title}\n#{line}\n"
+    System.out.println("感想 :\n);//{impression}\n#{line}\n"
+  }
+}
+
+while(true){
+  // メニューの表示
+  System.out.println("書いたレビューの数);：//{Review2.getReviewCount}"
+  System.out.println("[0]レビューを書く");
+  System.out.println("[1]アプリを終了");
+  input = new Scanner(System.in).nextInt();
+
+  }if(input == 0){    // レビューを書く
+    Review2 review = new Review2();
+    review.showReview();
+  }else if(input == 1){ // アプリを終了
+    System.exit(0);
+  }else{             // その他の入力
+    System.out.println("入力された値は無効な値です");
+  }
+}
+```
+
+まず、7-15行目のように、コンストラクタに`writeReview`メソッドの中身をそのまま移しました。つまり、33行目の`Review2.new`でインスタンスが生成されると**同時にコンストラクタが実行**され、8-15行目でレビューが生成（インスタンスの属性値として設定）されます。さらに、14行目でクラス変数reviewCountの値を1増やして更新することで、レビューの総数の情報を更新しました。つまり、インスタンスの生成の後にwriteReviewメソッドで行っていた処理を、インスタンスの生成と同時に自動で実行されるようにしました。
+そうすると、今までのwriteReviewメソッドは不要になります。そこで、16行目のようにコンストラクタとshowReviewメソッドの間に書いてあったwriteReviewメソッドの定義の記述を削除し、33-34行目のあたりにあったwriteReviewメソッドを呼び出す記述も削除しました。
+
+以上のように、`コンストラクタ`を使用することで、**インスタンスが生成されると同時に必ず実行したい処理を自動で実行する**ことができます。
+そして、主に、インスタンスの属性値の設定（インスタンス変数の定義）のような、インスタンスが必ず持っていなければいけない値の設定などに使用します。
+
+<curriculum-checkbox data-id=5196></curriculum-checkbox>
+
+# クラスの継承
+
+複数のクラスに同じメソッドを定義したい場合、それぞれのクラスに全てのメソッドを定義すると、同じ記述を何度も繰り返す事になってしまいます。結果コード量が多くなり、管理も難しくなります。これを防ぐために**「クラスの継承」**について学んでいきましょう。
+
+### <i class="icon information", id="term_115"></i> クラスの継承
+**あるクラスに定義されたメソッドを、別のクラスで利用出来るようにすることを継承と言います。**
+
+クラスの継承には、親クラスと子クラスの関係があります。元となるクラスを**親クラス**、親クラスのメソッドを引き継ぎ新しく作成するクラスを**子クラス** と呼びます。
+
+<br>では具体的な例を見てみましょう。
+
+ここでは、2つのクラスを作成したいとします。パトカーのようなインスタンスを生成するクラスとトラックのようなインスタンスを生成するクラスです。どちらも共通して車としての特徴を持っているので、共通する「車としての特徴」を親クラスCarの中でまとめ、パトカーとトラックそれぞれの特徴はそれぞれのクラスPatrolCar, TruckCarでのみ定義することとします。
+
+**車の特徴(親クラス)**
+
+- 加速する
+- 減速する
+- ホーンを鳴らす
+
+**パトカーだけの特徴(子クラス)**
+
+- サイレンを鳴らす
+
+**トラックだけの特徴(子クラス)**
+
+- 荷物を運ぶ
+
+車の特徴(親クラス)を継承する事で、パトカー(子クラス)とトラック(子クラス)に車の特徴を記述する必要がなくなります。結果、パトカーとトラックだけの特徴が分かりやすくなっています。
+
+<br>では実際にコードで書いていきます。
+
+継承をする際には、クラスを宣言する際に「<」を用いて、以下のように記述します。
+
+```Java[1]:
+class 子クラス名 < 親クラス名
+```
+
+Carクラス (親クラス)
+
+```Java[1]:
+  class Car
+    public void speedUp(){
+      System.out.println("加速します");
+    }
+
+    public void speedDown(){
+      System.out.println("減速します");
+    }
+
+    public void horn(){
+      System.out.println("プップー");
+    }
+  }
+```
+
+PatrolCarクラス (子クラス)
+
+```Java[1]:
+  class PatrolCar < Car //クラスの継承
+    public void siren(){
+      System.out.println("ピーポーピーポー");
+    }
+  }
+```
+
+TruckCarクラス (子クラス)
+
+```Java[1]:
+  class TruckCar < Car //クラスの継承
+    public void carry(){
+      System.out.println("荷物を運びます");
+    }
+  }
+```
+
+親クラスと子クラスで使えるメソッドをそれぞれ比較してみましょう。
+
+メソッド名 | Car(親クラス) | PatrolCar(子クラス)
+:-:|:-:|:-:
+speedUp|◯|◯
+speedDown|◯|◯
+horn|◯|◯
+siren|×|◯
+
+<br>
+
+メソッド名 | Car(親クラス) | TruckCar(子クラス)
+:-:|:-:|:-:
+speedUp|◯|◯
+speedDown|◯|◯
+horn|◯|◯
+carry|×|◯
+
+<br>
+
+親クラスに共通のメソッドを定義することで、子クラスのコード量が少なくなり見やすくなっています。また親クラスで定義された共通のメソッドを変更するだけで、変更を子クラスへ容易に反映できることがわかります。
+
+**複数のクラスで共通のメソッドを用いる時は、親クラスを作成して共通のメソッドを定義し、子クラスへ継承しましょう。**
+
+##クラスとインスタンスのポイントをつかもう
+
+クラスとインスタンスに関するポイントをまとめた動画を用意しましたので、ぜひ御覧ください。以下の動画を見た上で疑問点等ありましたら、遠慮無くメンターに質問しましょう。
+
+<iframe width="420" height="315" src="https://www.youtube.com/embed/uSevtEZZ9mY" frameborder="0" allowfullscreen></iframe>
+
+# 以上で、Javaのカリキュラムは全て終了です
+
+お疲れ様でした。これでプログラミングの基礎知識を学習しました。
+
+ここまでの学習で身に付けた知識を使って問題に進みましょう。
+問題は[!!Java問題1](/curriculums/22)、[!!Java問題2](/curriculums/23)の全部で2つあります。以下のリンクから、まずはJava問題1を解きましょう。すでに終わっているものがあれば、どんどん次の問題に挑戦しましょう。
+
+① [!!Java問題1に挑戦！](/curriculums/22)
+
+② [!!Java問題2に挑戦！](/curriculums/23)
+
+また、Javaの文法によって起こるエラーを自力で解決できるようにするための問題も用意しました。こちらも取り組んでください。
+
+③ [!!エラー問題に挑戦！](/curriculums/137)

@@ -1,0 +1,97 @@
+# 問題13の解答と解説
+
+**問題：メニューで[1]レビューを読むを入力したら「レビューの一覧を表示させてから」見たいレビューの番号を入力させるようにしましょう**
+
+作業ファイル：Review.java
+
+## 模範解答
+
+```java[1]{16,44,45,46,47,48,49,50,51,52,53,54,55}:Review.java
+ import java.util.*;
+
+ public class Review {
+     public static void main (String[] args) {
+         ArrayList<HashMap<String, String>> posts = new ArrayList<HashMap<String, String>>();
+         while(true) {
+             System.out.println("レビュー数： " + posts.size());
+             System.out.println("[0]レビューを書く");
+             System.out.println("[1]レビューを読む");
+             System.out.println("[2]アプリを終了する");
+             int input = new Scanner ( System.in ).nextInt ();
+             if (input == 0) {
+                 postReview(posts);
+             } else if (input == 1) {
+                 readReviews(posts);
+             } else if (input == 2) {
+                 System.out.println("プログラムを終了します！");
+                 System.exit(0);
+             } else {
+                 exception();
+             }
+         }
+     }
+     public static void postReview(ArrayList<HashMap<String, String>> aPosts) {
+         String line = "----------------------------------------------";
+         HashMap<String, String> post = new HashMap<String, String>();
+         System.out.println("ジャンルを入力してください：");
+         String genre = new Scanner ( System.in ).nextLine ();
+         System.out.println("タイトルを入力してください：");
+         String title = new Scanner ( System.in ).nextLine ();
+         System.out.println("感想を入力してください：");
+         String review = new Scanner ( System.in ).nextLine ();
+         post.put("genre", genre);
+         post.put("title", title);
+         post.put("review", review);
+
+         System.out.println("ジャンル :" + post.get("genre")  +  "\n" + line);
+         System.out.println("タイトル :" + post.get("title")  +  "\n" + line);
+         System.out.println("感想 　　:" + post.get("review") + "\n" +  line );
+
+         aPosts.add(post);
+     }
+     public static void readReviews(ArrayList<HashMap<String, String>> aPosts) {
+         String line = "----------------------------------------------";
+         for (int i = 0; i < aPosts.size(); i++){
+             System.out.println("[" + i + "]：" + aPosts.get(i).get("title") + のレビュー);
+         }
+         System.out.println("見たいレビューを選択してください");
+         int num = new Scanner ( System.in ).nextInt ();
+
+         System.out.println("ジャンル  :" + aPosts.get(num).get("genre") + "\n" + line);
+         System.out.println("タイトル  :" + aPosts.get(num).get("title") + "\n" + line);
+         System.out.println("感想     :" + aPosts.get(num).get("review") + "\n" + line);
+     }
+    public static void exception() {
+        System.out.println("入力された値は無効な値です");
+    }
+ }
+```
+
+## 解説
+
+ArrayListを使う為に`変数postsをreadReviewメソッドに引き渡して`、`readReviewsメソッドを編集する`必要があります。
+
+```java[15]:Review.java
+ readReviews(posts);
+```
+15行目でreadReviewsメソッドを呼び出す時に、引数として変数postsを入れることでreadReviewsメソッドにArrayListを渡すことができます。
+
+```java[43]{}:Review.java
+   public static void readReviews(ArrayList<HashMap<String, String>> aPosts) {
+       String line = "----------------------------------------------";
+       for (int i = 0; i < aPosts.size(); i++){
+           System.out.println("[" + i + "]　タイトル :" + aPosts.get(i).get("title"));
+       }
+       System.out.println("見たいレビューを選択してください");
+       int num = new Scanner ( System.in ).nextInt ();
+
+       System.out.println("ジャンル  :" + aPosts.get(num).get("genre") + "\n" + line);
+       System.out.println("タイトル  :" + aPosts.get(num).get("title") + "\n" + line);
+       System.out.println("感想     :" + aPosts.get(num).get("review") + "\n" + line);
+   }
+```
+
+48行目で「見たいレビューの番号を入力してください：」と出力するより前にレビューの一覧を表示させる処理を書きます。
+まず、配列オブジェクトaPostsの要素をすべて表示させます。要素すべてに同じ処理を行うには**for文**を使うのでしたね。
+for文の初期化文で定義した変数iを使うことによって、`[順番]`を表現することができます。そして、ArrayListの中にHashMapが入っていたので、ArrrayListのi番目のHashMapの「genre」の値を取得してくることにより、`タイトルのレビュー`という表現ができます。
+

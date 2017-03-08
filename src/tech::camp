@@ -1,0 +1,1449 @@
+# STEP5 : レビューを書いた後メニューに戻るようにしよう
+
+STEP4でのプログラムにはメニュー画面はありますが、最初しか表示されません。レビューを書いて、見るためにはレビューを書いた後にメニュー画面に戻る必要があります。そこでSTEP5ではメニューで「プログラムを終了する」を選択するまで**プログラムが終了しない**ような実装をします。
+
+## このSTEPでできるようになること
+- **ループ処理を行えるようになる**
+
+## ループ処理をする
+
+メニューで「アプリを終了する」を選択するまでプログラムが終了しないような実装は以下のようなイメージとなります。
+
+(画像　ruby参考)
+
+プログラムを実行してから終わらせないようにするには**ループ処理**というものを使います。
+
+## while文で繰り返し処理をしましょう
+
+配列のカリキュラムでfor文という繰り返し処理を学びましたが、今回はwhile文という繰り返し処理を学びましょう。
+
+### <i class="icon information", id="term_599"></i> while文
+
+while文は繰り返し処理を行う方法の一つで、以下のような文法で繰り返し処理を行います。
+
+```java
+while (条件式) {
+  繰り返す処理
+}
+```
+
+while文は条件式が**trueの場合は繰り返し処理が行われ、条件式がfalseの場合はwhile文から抜け出し、繰り返し処理が行われなくなります。**
+
+
+このように条件式がtrueの場合は繰り返し処理が行われ、falseの場合は繰り返し処理が行われないような流れになっています。
+
+```java
+public class Sample {
+    public static void main (String args[]) {
+        int num = 1;
+        while (num<=10) { //numが10まで以下の処理を実行
+            System.out.println(num);
+            num ++;
+        }
+    }
+}
+```
+
+上図のwhile文の中の処理を見てみると、**num ++**によってwhile文が処理を繰り返すたびに、変数**num**の値が1ずつ大きくなっていっているのが分かると思います。
+
+その証拠として、System.out.println文でnumを出力した結果が1ずつ大きくなっています。
+
+ただここで条件式が**num <= 10**なので、変数**num**の値が10より大きい、つまり**11**になったとき、処理が終了しています。
+
+上記の例は以下の様にfor文で書くこともできます。
+
+```Java
+public class Sample {
+    public static void main (String args[]) {
+        for(int num = 0; num <= 10; num++){
+            System.out.println(num);
+        }
+    }
+}
+```
+
+###<i class="icon pen"></i> Sample.javaに以下のソースコードを記述してみましょう
+
+```java[1]{}:
+public class Sample {
+    public static void main (String args[]) {
+        int num = 0;
+        while (num<100) {
+            num += 6;
+            System.out.println("0に6を足していって、100より大きくて一番小さな値は\(num)です");
+        }
+    }
+}
+```
+
+変数**num**が100以上になったとき、処理が終了するwhile文の処理ですが、新しく`+=`という演算子がでてきましたが、これを**自己代入演算子**と呼ばれる演算子です。
+
+### <i class="icon information", id="term_129"></i> 自己代入演算子
+自己代入とは、その名の通り自分自身に代入するということです。自己代入演算子は、通常の演算子を用いた書き方に直すことができます。例としてサンプルプログラム5行目の`number += 6`を通常の演算子`+`を使った書き方に直してみましょう。
+
+###【例】
+
+```java[1]
+  number += 6;
+```
+
+この自己代入演算子`+=`を使った式は以下のように書き直せます。
+
+###【例】
+
+```java[1]
+  number = number + 6;
+```
+
+このソースコードを見るとわかるように自己代入演算子を使った式`number += 6`は変数`number`に6足した値を`number`自身に代入するという処理になります。
+以下に代表的な自己代入演算子を示します。
+
+自己代入演算子|例|処理
+:-:|:-:|:-:
++=|number += 1|numberに1足した値をnumber自身に代入
+-=|number -= 2|numberから2引いた値をnumber自身に代入
+*=|number *= 3|numberに3かけた値をnumber自身に代入
+/=|number /= 4|numberを4で割った値をnumber自身に代入
+
+<br>
+
+このように自己代入演算子を使うと、変数自身にある値を足したり、引いたりすることを簡単に記述することができます。
+
+
+
+##while文はどのような時に使うか
+
+while文はどのように使うかは分かったと思います。ではどのような時にwhile文を使うのか考えていきましょう。
+
+一言で言えば、上でも説明したように**同じ処理を繰り返し行いたいとき**にwhileを使います。
+
+基本的に、同じようなコードを2回以上書くのは良くないとされているので、繰り返し行う処理を実行する場合はwhile文を使うようにしましょう。
+
+for文との違いとして、条件式のみ必要で初期化式や繰り返し時処理式などが不要な場合に、while文を使うと簡単にループ処理を記述することができます。
+
+<br>
+
+### <i class="icon information", id="term_128"></i> アルゴリズム
+アルゴリズムはコンピュータである目的を達成するための処理の手順のことです。
+ここでは「1から10までを順に足し合わせてその都度表示する」が目的、もしくは解となりこれを達成するためにどのようにプログラムを組んだらいいか考えることがアルゴリズムを考えることになります。
+
+**「1から10までを順に足し合わせてその都度表示する」処理の手順**
+
+- 1から10まで1ずつ増えていく変数numberを定義する
+- 足し合わせた数値の変数sumを定義する。
+- numberが10になるまで処理を繰り返すwhile文を書く
+- while文の中に足し合わせる処理を書く
+- while文の中に足し合わせた数字を表示させる処理を書く
+
+![アルゴリズム](https://tech-master.s3.amazonaws.com/uploads/curriculums/images/Ruby3/ruby3-increment.png "アルゴリズム")
+
+<i class= "icon attention"></i> ループ処理を書いていると条件によっては**いつまでも処理が終わらないという無限ループ**に入ってしまいます。そうしたときはコンソールでプログラムを強制終了させる必要があります。**強制終了はコンソール画面で「control + c」**です。
+
+上のアルゴリズムの考え方と、while文を使って「1から10までを順に足し合わせてその都度表示する」プログラムを書いてみましょう。
+
+<i class="icon pen"></i> **Sample.javaに1から10までを順に足し合わせてその都度表示するプログラムを書いてみましょう**
+
+```java[1]:Sample.java
+public class Sample {
+    public static void main (String[] args) {
+        int sum = 0;
+        int number = 1;
+        while (number <= 10) {
+            sum += number;
+            num += 1;
+            System.out.println(sum);
+        }
+    }
+}
+```
+
+
+## ループ処理をしましょう
+
+プログラムを終了させず同じ処理をずっと繰り返すループ処理を行う方法は**while文の条件式をtrue**にしておくことです。これでwhileが繰り返すための条件が常に真となり、永遠にwhile内の処理が繰り返されます。
+
+```java[1]
+  while (true) {
+    // プログラムは終了せず繰り返し処理が行われる
+  }
+```
+
+しかしこれでは**無限ループ**となり、処理が終わることがありません。このループの処理から抜けるためには**System.exit()**メソッドを呼び出します。
+
+### <i class="icon information", id="term_130"></i> System.exit()メソッド
+System.exit()メソッドは**プログラムの処理を強制的に終了させる**メソッドです。言うならば、実行中のプログラムを強制終了するコマンド「control + c」と同じ役割を持つメソッドです。
+
+```java[1]
+public class Sample {
+    public static void main (String[] args) {
+      while (true) {
+        System.exit(0);  // ここでプログラムが終わる
+        System.out.println("Hello world");   // これは呼ばれない
+       }
+    }
+}
+```
+
+
+### <i class="icon attention"></i>「System.exit(0)」はプログラムを終了させるための式であり、()の中に0以外を指定すると正常ではない形で終了したことを示します。ここでは基本的に正常にプログラミングが終了したと考えてよいのでSystem.exit(0)を用いています。
+
+### <i class="icon information", id="term_128"></i> 引数
+System.exit(0)などの()の中に入っている値（今回は0）を`引数`と呼びます。この言葉は今後たくさん使い、非常に重要なので覚えて下さい。
+
+
+<i class="icon attention"></i> System.exit()メソッドは**プログラム自体を強制終了させるのでSystem.exit()メソッド以降の処理は行われません**。
+
+では、System.exit()メソッドを使ってループを抜けるサンプルコードを書いてみましょう。
+
+<i class="icon pen"></i> **以下のソースコードをSample.javaに書き、実行してみましょう**
+
+```java[1]:Sample.java
+import java.util.*;
+public class Sample {
+    public static void main (String[] args) {
+        while (true) {
+            String input = new Scanner ( System.in ).nextLine ();
+            if (input.equals("exit")) {
+                System.exit(0);
+            }
+            else {
+                System.out.println("もう一度入力してください！");
+            }
+        }
+    }
+}
+```
+
+
+これはexitと入力するまでずっと処理を続けるプログラムです。このように**whileの条件式をtrueにすることでexitを呼ぶまで同じ処理を行い続けます**。
+
+ここで自身が入力したinputとexitと文字が一致してるか確認しています。多くの方は、input == exit  で判断すると思ったのではないでしょうか。
+そこで新しくでてきたequalsメソッドについて見ていきましょう。
+
+### <i class="icon information", id="term_129"></i> equalsメソッド
+
+```Java
+変数名.equals(比べる変数名);
+```
+【例】
+
+
+```java
+String abc = "abc";
+String def = "def";
+System.out.println(abc.equals(def));
+//"abc"と"def"は違うものなので、falseが出力される
+```
+
+上記の様に記述することにより、値が同じかどうか比べることができます。この説明だけでは==とequalsメソッドの違いが分からないので、次は等値(==)と等価(equals)について学びましょう。
+
+### <i class="icon information", id="term_129"></i> 等値( == )と等価 ( equals )
+
+なぜこのように分けるかというと、== と equalsメソッドでは微妙に意味が異なってきます。int型などの数字やboolean型の論理値の変数など基本型と呼ばれる変数を比較する際にはどちらでも問題ないのですが、それ以外のString型や配列などの変数の場合は等値と等価で得られる結果が変わってきます。
+
+等値とは指示しているものが完全に同一のものである時に使用します。
+
+```Java:例1
+String  a1 = "abc";
+String  a2 = a1;
+System.out.println(a == b); //全く同じオブジェクトなのでtrueになる
+System.out.prinltn(a.equals(b)); //等値であれば必ず等価である
+```
+この時、a2はa1を代入しているのでa1とa2は完全に一致しており等値であると言えます。この時の関係性は厳密に言いますと a1 == a2 ということが出来ます。
+これは指示しているものが、「完全に同一の存在」であることを示しています。
+
+等価とは指示している内容(ここでは文字列のオブジェクトの値)が一致していることを示しています。
+
+```Java:例2
+String a = "abc";
+System.out.println(a == "abc"); //（値は同じだが）違うオブジェクトなのでfalseになる
+System.out.prinltn(a.equals("abc")); //値が同じなのでtrueになる
+```
+例2では、変数aと"abc"は同姓同名の他人のような、同じ値だが違うオブジェクトとなっています。この場合==では結果がfalseになってしまいますが、equalsメソッドでは値が同じとなれば結果がtrueになります。
+
+そして、等値は同じオブジェクトであり、値が同じことが保証されているので、等値なオブジェクトは必ず等価になります。
+
+以上のことより、基本的に数字などは==を使い、違うオブジェクトを比べる可能性のある文字列などはequalsメソッドを使うと良いです。(数字などもequalsメソッドも使えるが==の方がコード量が少なくなる。)
+
+
+## メニュー画面をexitするまでループさせましょう
+
+では、メインの処理をループさせメニューが毎回表示されるようにしましょう。ここでのメインの処理とは
+**「メニューの表示」 > 「ユーザーの入力」 > 「入力によって条件分岐させた処理」**
+です。「アプリを終了する」にexitメソッドを記述して[2]を選んだらプログラムが終了するようにしましょう。
+
+<div class="challenge">
+  <h3><i class="icon crown"></i> 問題10：「メニュー画面の表示 > ユーザーの入力 > 入力によって選ばれた処理」を繰り返すようにしましょう。また、"[2]:アプリを終了する"を選んだらプログラムが終了するようにしましょう</h3>
+  <div class="challenge_box">
+    <h5>作業ファイル：Review.java</h5>
+    <h5>ヒント：メニュー画面の表示と入力によって処理を変える部分をwhileで囲んでループするようにしよう</h5>
+  </div>
+</div>
+
+[!!解答と解説を見る](http://master.tech-camp.in/curriculums/1741)
+
+
+## STEP5完成ソースコード
+
+これでSTEP5は終了です。ここまでのReview.javaのソースコードをのせておきます。比較して確認してみてください。
+
+```java[1]:Review.java
+import java.util.*;
+public class Review {
+    public static void main (String[] args) {
+        while(true) {
+            System.out.println("レビュー数: "  + 0);
+            System.out.println("[0]レビューを書く");
+            System.out.println("[1]レビューを読む");
+            System.out.println("[2]アプリを終了する");
+            int input = new Scanner ( System.in ).nextInt ();
+            if (input == 0) {
+                postReview();
+            } else if (input == 1) {
+                readReviews();
+            } else if (input == 2) {
+                System.out.println("プログラムを終了します！");
+                System.exit(0);
+            } else {
+                exception();
+            }
+        }
+    }
+    public static void postReview(){
+        String line = "----------------------------------------------";
+        HashMap<String, String> post = new HashMap<String, String>();
+        System.out.println("ジャンルを入力してください：");
+        String genre = new Scanner ( System.in ).nextLine ();
+        System.out.println("タイトルを入力してください：");
+        String title = new Scanner ( System.in ).nextLine ();
+        System.out.println("感想を入力してください：");
+        String review = new Scanner ( System.in ).nextLine ();
+        post.put("genre", genre);
+        post.put("title", title);
+        post.put("review", review);
+
+        System.out.println("ジャンル :" + post.get("genre") + "\n" + line);
+        System.out.println("タイトル :" + post.get("title") + "\n" + line);
+        System.out.println("感想 　　:" + post.get("review") + "\n" + line);
+    }
+    public static void readReviews(){
+    // 実行する処理
+    }
+    public static void endProgram(){
+        System.out.println("プログラムを終了します！");
+        System.exit(0);
+    }
+    public static void exception() {
+        System.out.println("入力された値は無効な値です");
+    }
+}
+```
+###<i class="icon attention"></i> 以下のような記述がありましたが、System.exit()メソッドはmainメソッド内で書く方が良いので、ここでは以下の記述を削除して進みます。
+```java
+    public static void endProgram(){
+        // プログラムを終了させる
+    }
+```
+
+### ■ 処理の流れ
+
+ここで処理の流れをおさらいします。
+
+- 10行目から19行目
+
+
+  ```java[10]:Review.java
+  if (input == 0) {
+     postReview();
+ } else if (input == 1) {
+     readReviews();
+ } else if (input == 2) {
+     System.out.println("プログラムを終了します！");
+     System.exit(0);
+ } else {
+     exception();
+ }
+  ```
+  ここはほとんどSTEP4と同じです。まずはメインの処理が記述されたメソッドを定義します。プログラムを終了するメソッドのみこのSTEPでは処理を追加しました。ここではmainメソッドに記述することによって、システムを終了する処理を実装しました。
+
+####<i class="icon attention"></i>System.exit()は他のメソッドと異なり、呼び出し元のメソッドに返り値として何も返らないメソッドなので、より複雑なコードの場合、期待している処理を実行しないで終了してします可能性があるので、基本的にはmainメソッド内で記述します。
+
+- 14行目から17行目
+
+  ```java[14]:Review.java
+ else if (input == 2) {
+     System.out.println("プログラムを終了します！");
+     System.exit(0);
+ }
+  ```
+
+ただ1つ`System.exit()`というメソッドを呼び出します。System.exitメソッドはプログラムを強制的に終了させるためのメソッドです。System.exitメソッドが呼ばれると、そのあとに処理を残していてもプログラムは終了します。
+
+  今回はwhile文による無限ループからプログラムを終了させるために使用します。
+
+- 4行目から20行目
+
+  ```java[4]:Review.java
+ while (true) {
+   // メニューの表示
+   // コンソールからの入力
+   // 入力に応じた処理
+ }
+  ```
+
+  メソッドの定義のあと、プログラムの処理が始まりますがその前に`while文`で全体の処理を囲みます。while文は繰り返し処理と呼ばれる、同じ処理を何度も繰り返すときに使われる文法です。
+
+  while文は条件式が`true`(真、プログラムとして正しい)のときに処理を繰り返します。
+
+  ```java[1]
+ while (条件式) {
+   // 条件式がtrueのときに処理を繰り返す
+   // 処理
+ }
+  ```
+
+  よって、条件式をtrueにすると**常に処理が繰り返し続ける**ことになります(無限ループ)。
+
+  ```java[1]
+ while (true) {
+   // 常に処理を繰り返す
+   // 処理
+ }
+  ```
+
+  今回、System.exitメソッドでプログラムを終了するまでは
+  `「メニューの表示」 → 「コンソールからの入力」 → 「入力に応じた処理」`
+  という流れを繰り返し続けるので、これらの処理をwhile文で囲みます。
+
+   ```java[4]:Review.java
+ while(true) {
+     System.out.println("レビュー数: "  + 0);
+     System.out.println("[0]レビューを書く");
+     System.out.println("[1]レビューを読む");
+     System.out.println("[2]アプリを終了する");
+     int input = new Scanner ( System.in ).nextInt ();
+     if (input == 0) {
+         postReview();
+     } else if (input == 1) {
+         readReviews();
+     } else if (input == 2) {
+         System.out.println("プログラムを終了します！");
+         System.exit(0);
+     } else {
+         exception();
+     }
+ }
+  ```
+
+<br>
+
+このようなソースコードが書けたらSTEP6へ進みましょう。
+
+***
+# STEP6 : レビューを複数書けるようにしよう
+
+STEP5でメニューがループするようになり、何回でもレビューを書けるようになりました。しかし今のままでは**レビューを書くたびに上書きされてしまいます**。このSTEPでは複数のレビューをかけるようにしましょう。
+
+## このSTEPでできるようになること
+- **ArrayListを使えるようになる**
+
+## 複数の情報を扱おう
+
+複数のレビューを扱う方法として考えられるのが**レビューの数だけ変数を用意する方法**です。しかし、このアプリケーションでは書くことのできるレビューの数に限界がないため、いくつ変数を用意すれば良いかわかりません。そのため考えられるだけ多くの変数を用意するしかないです(100個など)。
+
+しかし、この方法はよくありません。なぜなら、**用意した変数よりも多くレビューを書かれたら対応できないからです**。さらにレビューを全く書かなければ**使うことのない無駄な変数**がたくさん出来てしまいます。
+
+そこで登場するのが**ArrayListという概念**ですが、まずはListという概念を学びましょう。
+
+## <i class="icon information"></i> Listとは
+
+Listとは、要素の数を指定しなくても使用出来る配列です。配列のように変数宣言時に要素数を指定せずに配列と同様に複数のデータを使用することができます。Listの中にもArrayListやLinkedListといったものがありますが、最も使われるArrayListについて説明していきます。
+
+## ArrayList
+
+ArrayListは先ほど説明したように、配列と同様に複数の要素に対して扱うことが出来ます。実際のコードを踏まえながら要素の追加・削除・取得を行っていきましょう。
+
+### 要素の追加・削除・取得
+
+まず要素の追加をしてみましょう。
+
+【例】
+
+```Java
+import java.util.*;
+public class Sample {
+	public static void main(String[] args) {
+		ArrayList<String> mentors = new ArrayList<String>();
+		mentors.add("tsuji");
+		mentors.add("yokoyama");
+		mentors.add("inaba");
+
+		mentors.add(2, "mori");
+
+        for(String name: mentors) {
+            System.out.println(name);
+        }
+
+        System.out.println(mentors.get(2));
+	}
+}
+```
+
+まず1行目と4行目をみてください。ArrayListの定義について見ましょう。
+
+```Java
+import java.util.ArrayList;　// 1行目
+ArrayList<String> mentors = new ArrayList<String>();　// 4行目
+```
+
+コレクションはJava.utilパッケージに属しているので、import文を記述してArrayListを使います。この2行の記述をすることによって、ArrayListを使用することが出来ます。
+4行目の記述の<>HashMapと同じジェネリクスで、今回はString型の1つのみ入れます。宣言の仕方は以下に示します。
+
+```java
+ArrayList<インスタンスの型名> 変数名  = new ArrayList<インスタンスの型名>();
+```
+
+
+後は配列とほぼ同じですね。
+右辺では、*new ArrayList<String> ();*　としてインスタンスを生成しています。ここでは、記述方法に対して留意していただければ結構です。これでString型を格納できるArrayListを生成することが出来ました。
+
+それでは、次にこの空のArrayListに要素を追加していきましょう。
+
+### <i class="icon information"></i> addメソッド
+
+addメソッドを使用して、ArrayListに要素を追加します。追加する要素の前に,(カンマ)で区切り、追加する場所を入れることでaddメソッドは指定した位置に要素を追加することが出来ます。
+先ほどのコードの5 ~ 9行目を見てみましょう。
+
+```java
+コレクション名.add(追加する要素); //5 ~ 7行目と同じ処理
+コレクション名.add(追加する場所, 追加する要素); //9行目と同じ処理
+
+//5 ~ 9行目の処理
+mentors.add("tsuji");
+mentors.add("yokoyama");
+mentors.add("inaba");
+
+mentors.add(2, "mori");
+```
+
+こちらのaddメソッドは、指定した位置に要素を追加することが出来ます。
+また指定しない場合は、ArrayListの一番最後の要素に追加されます。これがどのような順番で格納されているか確認してみましょう。また今まで使用していたforではなく、拡張for文というものを使用してみましょう。
+
+### <i class="icon information"></i> 拡張for文
+
+拡張for文とは、配列やコレクション（ArrayListやHashMap）から順に取り出して処理するものになります。11行目から13行目を見てください。
+普通のfor文とは使い方が違い、()の左側に取り出したものを入れる変数を定義して、**:(コロン)で区切り**右側に処理したい配列やコレクションを入れます。
+<i class="icon attention"></i>;(セミコロン)ではないので注意して下さい
+その様に記述すると中の要素が1つずつ取り出されて、左側で定義した変数に代入され、配列やコレクションの中身を全て見るまでこのループが続きます。
+今回の場合コレクションの<strong>mentors</strong>を一つずつ取り出して、<strong>name</strong>という変数に入れて表示しています。
+
+```java
+for(型 変数名 :  配列またはコレクション){
+ //処理
+}
+
+//11 ~ 13行目の処理
+for(String name: mentors) {
+    System.out.println(name); //mentorsに入っている要素を1つずつ出力している
+}
+```
+
+どのように表示されたでしょうか。
+
+```コンソール
+tsuji
+yokoyama
+mori
+inaba
+```
+
+このような順番ですね。<strong>配列と同様に要素の順番 （添え字）は0から始まります。</strong>
+
+### <i class="icon information"></i> getメソッド
+
+15行目を見てください。こちらでgetメソッドというものを使用してコレクションの要素を取得しています。
+このようにコレクションに対して<strong>get();</strong>という引数に添え字を指定することによって、その要素を取得できます。
+
+```java
+コレクション名.get(添え字);
+
+//15行目の処理
+System.out.println(mentors.get(2));//mentorsの3つ目の値であるmoriが出力される
+```
+上記の処理によりmoriという要素が取得できたと思います。このように指定した順番の要素を取得することが出来ます。
+
+
+
+<i class="icon pen"></i> 一度配列とArrayListのコードを見比べてみましょう。
+
+```java[1]:Sample.java
+public class Sample {
+    public static void main ( String[ ] args ) {
+        String[] stationalies;
+        stationelies = new String[3];
+        stationelies[0] = "メモ帳";
+        stationelies[1] = "鉛筆";
+        stationelies[2] = "消しゴム";
+        System.out.println( stationalies[0] );
+    }
+}
+```
+
+```java[1]:Sample.java
+import java.util.ArrayList;
+
+public class Sample {
+    public static void main ( String[ ] args ) {
+        ArrayList< String > stationelies = new ArrayList< String >();
+        stationelies.add("メモ帳");
+        stationelies.add("鉛筆");
+        stationelies.add("消しゴム");
+        System.out.println( stationelies.get(0) );
+    }
+}
+```
+
+ここで着目すべき点は2つです。
+1つ目は、import文を記述していることです。
+2つ目は、ArrayListは宣言する際に箱の要素を宣言しないということです。
+
+## レビューの情報をArrayListで管理しよう
+
+では、今まで書いてきたReview.javaをArrayListを使って書き直してみましょう。イメージとしては
+- **複数のレビューの情報を持ったArrayList「posts」を定義する**
+- **１つのレビューは今まで通り、HashMap「post」で生成する**
+- **レビューを書いたらHashMap「post」をArrayList「posts」に追加する**
+
+これで、書いたレビューが次々にArrayListに入れられていきます。
+
+
+## ArrayList「posts」を生成しよう
+
+まずは、レビュー情報を管理するArrayList「posts」を生成しましょう。生成は以下のコードで行います。
+
+```java[1]
+  ArrayList<HashMap<String, String>> posts = new ArrayList<HashMap<String, String>>();
+```
+上記の複雑なArrayListの宣言では、インスタンスの型がHashMapを示しています。HashMap<String, String>といった型が入っており一見複雑な宣言をしています。しかし、分解をしてみると単にArrayListの中にHashMapが入っているということに気が付くでしょう。
+
+<div class="challenge">
+  <h3><i class="icon crown"></i> 問題11：レビュー情報を管理するArrayList「posts」を生成しましょう</h3>
+  <div class="challenge_box">
+    <h5>作業ファイル：Review.java</h5>
+  </div>
+</div>
+
+[!!解答と解説を見る](http://master.tech-camp.in/curriculums/1742)
+
+## ArrayList「posts」にレビューの情報postを追加しよう
+
+これでArrayList「posts」を作ることができました。あとは「レビューを書く」で生成したレビューHashMapのpostをArrayList「posts」に追加するだけです。
+ここでReview.javaの「レビューを書く」メソッドの`postReview`を見てみましょう。
+
+```java[1]:Review.java
+ public static void postReview() {
+     String line = "----------------------------------------------";
+     HashMap<String, String> post = new HashMap<String, String>();
+     System.out.println("ジャンルを入力してください：");
+     String genre = new Scanner ( System.in ).nextLine ();
+     System.out.println("タイトルを入力してください：");
+     String title = new Scanner ( System.in ).nextLine ();
+     System.out.println("感想を入力してください：");
+     String review = new Scanner ( System.in ).nextLine ();
+     post.put("genre", genre);
+     post.put("title", title);
+     post.put("review", review);
+
+     System.out.println("ジャンル :" + post.get("genre")  +  "\n" + line);
+     System.out.println("タイトル :" + post.get("title")  +  "\n" + line);
+     System.out.println("感想 　　:" + post.get("review") + "\n" +  line );
+ }
+```
+
+`postReview`メソッドの中では新しいレビューの変数postを生成しています。これをArrayList「posts」に追加したいので、`addメソッド`を使用します。
+
+```java[2]{19}:Review.java
+ public static void postReview() {
+     String line = "----------------------------------------------";
+     HashMap<String, String> post = new HashMap<String, String>();
+     System.out.println("ジャンルを入力してください：");
+     String genre = new Scanner ( System.in ).nextLine ();
+     System.out.println("タイトルを入力してください：");
+     String title = new Scanner ( System.in ).nextLine ();
+     System.out.println("感想を入力してください：");
+     String review = new Scanner ( System.in ).nextLine ();
+     post.put("genre", genre);
+     post.put("title", title);
+     post.put("review", review);
+
+     System.out.println("ジャンル :" + post.get("genre")  +  "\n" + line);
+     System.out.println("タイトル :" + post.get("title")  +  "\n" + line);
+     System.out.println("感想 　　:" + post.get("review") + "\n" +  line );
+
+     posts.add(post);
+ }
+```
+
+しかし、このソースコードはエラーになってしまいます。なぜならば**postReviewメソッドの中では変数postsが使えない**からですが、「なぜだ？」と思った人も多いでしょう。
+そこで変数のスコープについて学びましょう。
+
+##変数のスコープとは
+変数は定義した場所により使える範囲が変わってきます。その変数が使える範囲のことを**スコープ**と呼びます。
+変数のスコープの範囲は基本的に定義した場所より内側で利用することができます。例えばクラスで定義した変数はクラス全体で、メソッド内で定義した変数はそのメソッドの中のみで利用できます。以下にその例が記述してあります。
+
+```java
+ public class Sample{
+    int a = 0;
+    public static void main(String[] args){
+        int b = 1;
+        for(int i = 0; i < 5; i++){
+            System.out.println("aは" + a + "、bは" + b + "、iは" + i);
+            //「aは0、bは1、iは(その時のループ処理による)」が出力される
+        }
+
+        System.out.println("iは" + i);
+        //変数iは上のfor文の中だけで利用できるので、エラー
+
+        int a = 2;
+        //1度定義した変数でも、再定義すると上書きされる
+
+        System.out.println("aは" + a);
+        //「aは2」が出力される
+    }
+
+    public static void example(){
+        System.out.println("aは" + a);
+        //mainメソッドでの処理は考慮されないので「aは0」と出力される
+
+        System.out.println("bは" + b);
+        //変数bはmainメソッドのみで使えるので、エラー
+    }
+ }
+```
+最初のうちは「なんで変数が使える場所に制限があるんだ」と思われるかもしれませんが、これもプログラムを書いていくと恩恵が徐々に分かっていくと思うので、今は我慢して覚えていきましょう。
+
+しかし、mainメソッドなどで定義した変数を他のメソッドなどで全く使えないのは不便です。
+そこで今度は関数間における変数の受け渡しについて学びましょう。
+
+##変数の受け渡し
+
+関数の間で変数が受け渡すことができ、その時に使うのが関数の後ろに付いている**()**になります。以下の様に記述すると関数同士で変数を受け渡しすることができます。
+
+```java
+　public class Sample
+　    public static void main(String[] args){
+　        int num = 0;
+　        example(num);
+　        //渡したい変数をこの()の中に入れてあげる
+　        //これでexampleメソッドに変数numを渡すことができた
+　        //引数の数と型が同じ10行目のexampleメソッドを呼ぶ
+　    }
+　
+　    public static void example(int number){
+　        //メソッド名の隣の()の中に受け取った変数を定義してあげる
+　        //型は元々（mainメソッドで）定義したと同じ型に合わせるが、変数名は何でもいい
+
+　        System.out.println("numberは"+ number);
+　        //もらった変数numberを使って「numberは0」が出力される
+　    }
+　
+　    public static void example(){
+　        //こちらのメソッドは同じメソッド名でも、()の中の引数の数や型が違うので呼ばれない
+　    }
+　}
+```
+
+変数のスコープと受け渡しについて学んだことで本題に戻り、ここでは引数を用いてpostsを取得しましょう。postsを定義している箇所はmainメソッドです。
+mainメソッドの内部でpostReviewsメソッドを呼ぶ際に引数でpostsを渡してあげましょう。
+
+```java
+ public static void main (String[] args) {
+     ArrayList<HashMap<String, String>> posts = new ArrayList<HashMap<String, String>>();
+     while(true) {
+         System.out.println("レビュー数： 0");
+         System.out.println("[0]レビューを書く");
+         System.out.println("[1]レビューを読む");
+         System.out.println("[2]アプリを終了する");
+         int input = new Scanner ( System.in ).nextInt ();
+         if (input == 0) {
+             postReview(posts);
+         } else if (input == 1) {
+             readReviews();
+         } else if (input == 2) {
+             System.out.println("プログラムを終了します！");
+             System.exit(0);
+         } else {
+             exception();
+         }
+     }
+ }
+```
+この上のコードを参照すると呼び出す際に引数でpostsを持っています。これが実行される側でどうなるか確認しましょう。
+
+```java
+ public static void postReview(ArrayList<HashMap<String, String>> aPosts) {
+     String line = "----------------------------------------------";
+     HashMap<String, String> post = new HashMap<String, String>();
+     System.out.println("ジャンルを入力してください：");
+     String genre = new Scanner ( System.in ).nextLine ();
+     System.out.println("タイトルを入力してください：");
+     String title = new Scanner ( System.in ).nextLine ();
+     System.out.println("感想を入力してください：");
+     String review = new Scanner ( System.in ).nextLine ();
+     post.put("genre", genre);
+     post.put("title", title);
+     post.put("review", review);
+
+     System.out.println("ジャンル :" + post.get("genre")  +  "\n" + line);
+     System.out.println("タイトル :" + post.get("title")  +  "\n" + line);
+     System.out.println("感想 　　:" + post.get("review") + "\n" +  line );
+
+     aPosts.add(post);
+ }
+```
+このようにメソッドが呼び出される際に、型を指定しています。このように行うことによってaPostsというArrayListを使うことが出来るようになります。
+
+```java
+public static void postReview(ArrayList<HashMap<String, String>> aPosts)
+```
+
+
+
+
+## 書いたレビューの数を表示しよう
+
+ArrayListに要素を追加しても今は中身を出力をしていないのでちゃんと追加されているかわかりません。そこでメニュー画面に「書いたレビューの数」を表示しましょう。今まで**レビュー数：0**と表示していましたがここの0を書き換えましょう。
+
+**レビュー数 = ArrayListオブジェクトpostsの要素数**です。この要素数を0の代わりに表示するだけです。
+
+### <i class="icon information", id="term_134"></i> sizeメソッド
+
+ArrayListの要素の数を数えるメソッドはsizeメソッドです。要素の数を数えるという処理は配列でのlengthメソッドに該当します。
+ここでも配列でのlengthメソッドと同様に捉えていただいて構いません。今までのgetメソッド同様、以下の様に記述します。
+
+```java
+コレクション名.size();
+```
+【例】
+
+
+```javaƒ
+ArrayList<String> list = new ArrayList<String>();
+list.add("abc");
+list.add("def");
+System.out.println(list.size());
+//「2」と出力される
+```
+
+
+<div class="challenge">
+  <h3><i class="icon crown"></i> 問題12：書いたレビューの数をメニュー画面で「レビュー数：1」のように表示させましょう</h3>
+  <div class="challenge_box">
+    <h5>作業ファイル：Review.java</h5>
+  </div>
+</div>
+
+[!!解答と解説を見る](http://master.tech-camp.in/curriculums/1744)
+
+
+## STEP6完成ソースコード
+
+これでSTEP6は終了です。ここまでのReview.javaのソースコードをのせておきます。比較して確認してください。
+
+```java[1]:Review.java
+import java.util.*;
+
+public class Review {
+    public static void main (String[] args) {
+        ArrayList<HashMap<String, String>> posts = new ArrayList<HashMap<String, String>>();
+        while(true) {
+            System.out.println("レビュー数： " + posts.size());
+            System.out.println("[0]レビューを書く");
+            System.out.println("[1]レビューを読む");
+            System.out.println("[2]アプリを終了する");
+            int input = new Scanner ( System.in ).nextInt ();
+            if (input == 0) {
+                postReview(posts);
+            } else if (input == 1) {
+                readReviews();
+            } else if (input == 2) {
+                System.out.println("プログラムを終了します！");
+                System.exit(0);
+            } else {
+                exception();
+            }
+        }
+    }
+    public static void postReview(ArrayList<HashMap<String, String>> aPosts) {
+        String line = "----------------------------------------------";
+        HashMap<String, String> post = new HashMap<String, String>();
+        System.out.println("ジャンルを入力してください：");
+        String genre = new Scanner ( System.in ).nextLine ();
+        System.out.println("タイトルを入力してください：");
+        String title = new Scanner ( System.in ).nextLine ();
+        System.out.println("感想を入力してください：");
+        String review = new Scanner ( System.in ).nextLine ();
+        post.put("genre", genre);
+        post.put("title", title);
+        post.put("review", review);
+
+        System.out.println("ジャンル :" + post.get("genre")  +  "\n" + line);
+        System.out.println("タイトル :" + post.get("title")  +  "\n" + line);
+        System.out.println("感想 　　:" + post.get("review") + "\n" +  line );
+
+        aPosts.add(post);
+    }
+    public static void readReviews() {
+        //レビューを読む
+    }
+    public static void exception(){
+        System.out.println("これは無効な値です！");
+    }
+}
+```
+
+### ■ 処理の流れ
+
+ここで処理の流れをおさらいします。
+
+-  1行目
+
+```java:Review.java
+ import java.util.*;
+```
+
+ここでは importすることによって、 java.utilの ArrayListやHashMap、Scannerを使用できるようにしています。
+
+-   4行目から 23行目
+
+```java[4]:Review.java
+   public static void main (String[] args) {
+        ArrayList<HashMap<String, String>> posts = new ArrayList<HashMap<String, String>>();
+        while(true) {
+            System.out.println("レビュー数： " + posts.size());
+            System.out.println("[0]レビューを書く");
+            System.out.println("[1]レビューを読む");
+            System.out.println("[2]アプリを終了する");
+            int input = new Scanner ( System.in ).nextInt ();
+            if (input == 0) {
+                postReview(posts);
+            } else if (input == 1) {
+                readReviews();
+            } else if (input == 2) {
+                System.out.println("プログラムを終了します！");
+                System.exit(0);
+            } else {
+                exception();
+            }
+        }
+    }
+```
+
+ここでは main関数を定義しています。ここで while文とif文を使うことによって適するメソッドを呼び出しています。
+それでは詳細を見ていきましょう。
+
+ -    6行目
+
+```java[6]:Review.java
+ while(review) {
+```
+
+ここではレビューを繰り返して書くことが出来るように while 文を用いています。今回はwhile文を何度も処理させる為、常にtrueにしています。
+
+ -    11行目から 21行目
+
+```java[11]:Review.java
+ int input = new Scanner ( System.in ).nextInt ();
+ if (input == 0) {
+     postReview(posts);
+ } else if (input == 1) {
+     readReviews();
+ } else if (input == 2) {
+     System.out.println("プログラムを終了します！");
+     System.exit(0);
+ } else {
+     exception();
+ }
+```
+
+ここでは if文で条件分岐しています。11行目で定義した input の値に対して呼び出すメソッドを変更しています。
+ここからは呼び出されるメソッドの処理を見ていきましょう。
+
+ -     24行目から 42行目
+
+```java[24]:Review.java
+ public static void postReview(ArrayList<HashMap<String, String>> aPosts) {
+     String line = "----------------------------------------------";
+     HashMap<String, String> post = new HashMap<String, String>();
+     System.out.println("ジャンルを入力してください：");
+     String genre = new Scanner ( System.in ).nextLine ();
+     System.out.println("タイトルを入力してください：");
+     String title = new Scanner ( System.in ).nextLine ();
+     System.out.println("感想を入力してください：");
+     String review = new Scanner ( System.in ).nextLine ();
+     post.put("genre", genre);
+     post.put("title", title);
+     post.put("review", review);
+
+     System.out.println("ジャンル :" + post.get("genre")  +  "\n" + line);
+     System.out.println("タイトル :" + post.get("title")  +  "\n" + line);
+     System.out.println("感想 　　:" + post.get("review") + "\n" +  line );
+
+     aPosts.add(post);
+ }
+```
+
+ 13行目では、 関数 postReviewが呼び出されます。この際呼び出す時の処理としては、postReview(posts)と呼び出しているので、受け取る引数の型を宣言する必要があります。ここでは ArrayListと型を宣言してあげましょう。
+
+またここから情報を格納する作業に入りますが、ここでは HashMapという概念を用います。このように HashMapという概念を用いることによって、より簡潔にコードを記述することができます。
+
+そして最後にそのような HashMapで格納されている postを aPostsという ArrayListに格納しましょう。
+
+ -      43行目から 45行目
+
+```java[43]:Review.java
+ public static void readReviews() {
+     //レビューを読む
+ }
+```
+
+ここでは readReviewsメソッドを定義しています。現状では何もメソッドの処理は記述していません。次のステップから記述します。
+
+ -      46行目から 48行目
+
+```java[46]:Review.java
+　public static void exception() {
+　    System.out.println("入力された値は無効な値です");
+　}
+```
+
+ここでは、0,1,2以外の違う値を入力した場合に「入力された値は無効な値です」と出力します。
+
+このようなソースコードが書けたらSTEP7へ進みましょう。
+
+# STEP7 : レビューを読めるようにしよう
+
+いよいよ最後のSTEPです。このSTEPでは今まで保留していた「レビューを読む」プログラムを実装していきたいと思います。
+
+## このSTEPでできるようになること
+- **ArrayListに対して繰り返し処理を行えるようになる**
+- **ArrayListから要素を取り出せるようになる**
+
+もう一度「レビューを読む」の流れを見ていきましょう。
+
+**メニュー画面**
+
+```bash:コンソール
+レビュー数：3
+[0]レビューを書く
+[1]レビューを読む
+[2]アプリを終了する
+# 入力待ち
+```
+
+**[1]レビューを読むを入力後**
+
+```bash:コンソール
+[0]：時をかける少女のレビュー
+[1]：トレモロのレビュー
+[2]：るろうに剣心のレビュー
+
+見たいレビューの番号を入力してください：
+# 入力待ち
+```
+
+**[2]：るろうに剣心のレビューを入力後**
+
+```bash:コンソール
+ジャンル : マンガ
+---------------------------
+タイトル : るろうに剣心
+---------------------------
+感想 :
+映画もいいけどやっぱりマンガが最高！
+---------------------------
+```
+
+まず、見たいレビューの順番を入力してそのレビューを表示させるようにしましょう。
+
+
+## 指定した順番のレビューを表示させるようにしましょう
+
+では、実際に「レビューを読む」を実装していきましょう。レビューを読むのメソッド`readReviews`に書き足していきます。ここで作る機能は以下です。
+
+**見たいレビューの番号を入力させる**
+
+メニューで[1]:レビューを読むを入力後
+
+```bash:コンソール
+  見たいレビューの番号を入力してください：
+  # 入力待ち
+```
+
+**その番号のレビューのジャンル、タイトル、感想を表示する**
+
+レビューの番号を入力後
+
+```bash:コンソール
+ジャンル : マンガ
+---------------------------
+タイトル : るろうに剣心
+---------------------------
+感想 : 映画もいいけどやっぱりマンガが最高！
+---------------------------
+```
+
+## レビューの一覧を表示しよう
+
+いよいよ最後の実装です。このままでは ArrayListの何番目に何のレビューが入ってるかわかりません。そこで「レビューを読む」を選択したら**レビューの一覧が表示**されるようにしましょう。
+レビューの一覧ではそのレビューの「タイトル」とそのレビューの「順番」を表示させるようにします。
+
+```bash:コンソール
+[0]：時をかける少女のレビュー
+[1]：トレモロのレビュー
+[2]：るろうに剣心のレビュー
+
+見たいレビューの番号を入力してください：
+# 入力待ち
+```
+
+レビューの一覧の表示をするには**ArrayList  postsの要素すべてに表示の処理を行う**必要があります。
+
+## ArrayListの要素すべてに共通の処理を行おう
+
+コレクションの全ての要素に共通の処理を行うには先ほど学んだ拡張for文を使えますが、今回は通常のfor文を使ってみましょう。
+
+``` java[1]
+for (i = 0; i < ArrayList.size(); i++) {
+  ArrayList.get(i);
+}
+```
+
+**変数には繰り返しごとにArrayLIstの要素が代入されていきます**。試しに以下のソースコードを実行してみましょう。
+
+<i class="icon pen"></i> **以下のソースコードをSample.javaに書き、実行してみましょう**
+
+```java[1]:Sample.java
+ import java.util.*;
+
+ public class Sample {
+    public static void main(String args[]) {
+       ArrayList<String> names = new ArrayList<String>();
+       names.add("tsuji"); names.add("yokoyma");names.add("  shuhei");
+       for(i = 0; i < ArrayList.size(); i ++) {
+           System.out.println(names.get(i));
+       }
+    }
+}
+```
+上のコードでは ArrayLIst  namesに要素を加えました。それを**for文**を用いて、ArrayListすべての要素に対して処理します。
+
+<i class="icon pen"></i> **以下のソースコードをSample.javaに書き、実行してみましょう**
+
+```java[1]:Sample.java
+ import java.util.ArrayList;
+
+ public class Sample {
+    public static void main(String args[]) {
+       ArrayList<String> names = new ArrayList<String>();
+       names.add("tsuji"); names.add("yokoyma");names.add("  shuhei");
+       for(i = 0; i < ArrayList.size(); i ++) {
+           System.out.println(names.get(i));
+           System.out.println(i  + "回繰り返しました");
+       }
+    }
+}
+```
+
+ちゃんと「3回繰り返しました」と出力されましたね。要素数も3つなので、要素の数だけ繰り返しているのがわかります。
+
+## 「レビューを読む」を入力したらレビューの一覧を表示させよう
+
+メニューで"[1]レビューを読む"を入力したらレビューの一覧を表示させてから見たいレビューの番号を入力させるようにしましょう。レビューの一覧は以下のように
+**[順番]："タイトル"のレビュー**
+というフォーマットで表示させましょう。
+
+```bash:コンソール
+[0]：時をかける少女のレビュー
+[1]：トレモロのレビュー
+[2]：るろうに剣心のレビュー
+
+見たいレビューの番号を入力してください：
+# 入力待ち
+```
+
+<div class="challenge">
+  <h3><i class="icon crown"></i> 問題13：メニューで"[1]レビューを読む"を入力したら「レビューの一覧を表示させてから」見たいレビューの番号を入力させるようにしましょう</h3>
+  <div class="challenge_box">
+
+    <pre>
+    <code class="コンソール">
+    [0]：時をかける少女のレビュー
+    [1]：トレモロのレビュー
+    [2]：るろうに剣心のレビュー
+
+    見たいレビューの番号を入力してください：
+    # 入力待ち
+    </code>
+    </pre>
+
+    <h5>作業ファイル：Review.java</h5>
+    <h5>ヒント：ArrayList  postsにfor文を使って繰り返し処理を行い、全ての要素を表示させましょう</h5>
+  </div>
+</div>
+
+[!!解答と解説を見る](http://master.tech-camp.in/curriculums/1745)
+
+## STEP7完成ソースコード
+
+これでSTEP7は終了です。完成のReview.javaのソースコードをのせておきます。比較して確認してみてください。
+
+```java[1]:Review.java
+import java.util.*;
+
+public class Review {
+    public static void main (String[] args) {
+        ArrayList<HashMap<String, String>> posts = new ArrayList<HashMap<String, String>>();
+        while(true) {
+            System.out.println("レビュー数： " + posts.size());
+            System.out.println("[0]レビューを書く");
+            System.out.println("[1]レビューを読む");
+            System.out.println("[2]アプリを終了する");
+            int input = new Scanner ( System.in ).nextInt ();
+            if (input == 0) {
+                postReview(posts);
+            } else if (input == 1) {
+                readReviews(posts);
+            } else if (input == 2) {
+                System.out.println("プログラムを終了します！");
+                System.exit(0);
+            } else {
+                exception();
+            }
+        }
+    }
+    public static void postReview(ArrayList<HashMap<String, String>> aPosts) {
+        String line = "----------------------------------------------";
+        HashMap<String, String> post = new HashMap<String, String>();
+        System.out.println("ジャンルを入力してください：");
+        String genre = new Scanner ( System.in ).nextLine ();
+        System.out.println("タイトルを入力してください：");
+        String title = new Scanner ( System.in ).nextLine ();
+        System.out.println("感想を入力してください：");
+        String review = new Scanner ( System.in ).nextLine ();
+        post.put("genre", genre);
+        post.put("title", title);
+        post.put("review", review);
+
+        System.out.println("ジャンル :" + post.get("genre")  +  "\n" + line);
+        System.out.println("タイトル :" + post.get("title")  +  "\n" + line);
+        System.out.println("感想 　　:" + post.get("review") + "\n" +  line );
+
+        aPosts.add(post);
+    }
+    public static void readReviews(ArrayList<HashMap<String, String>> aPosts) {
+        String line = "----------------------------------------------";
+        for (int i = 0; i < aPosts.size(); i++){
+            System.out.println("[" + i + "]：" + aPosts.get(i).get("title") + のレビュー);
+        }
+        System.out.println("見たいレビューを選択してください");
+        int num = new Scanner ( System.in ).nextInt ();
+
+        System.out.println("ジャンル  :" + aPosts.get(num).get("genre") + "\n" + line);
+        System.out.println("タイトル  :" + aPosts.get(num).get("title") + "\n" + line);
+        System.out.println("感想     :" + aPosts.get(num).get("review") + "\n" + line);
+    }
+    public static void exception() {
+        System.out.println("入力された値は無効な値です");
+    }
+}
+
+```
+
+### ■ 処理の流れ
+
+最後に全体の処理の流れをおさらいします。
+
+-  1行目
+
+```java:Review.java
+ import java.util.*;
+```
+
+ここでは importすることによって、 java.utilの ArrayListとHashMapを使用できるようにしています。
+
+-   4行目から 23行目
+
+```java[4]:Review.java
+ public static void main (String[] args) {
+     ArrayList<HashMap<String, String>> posts = new ArrayList<HashMap<String, String>>();
+     while(true) {
+         System.out.println("レビュー数： " + posts.size());
+         System.out.println("[0]レビューを書く");
+         System.out.println("[1]レビューを読む");
+         System.out.println("[2]アプリを終了する");
+         int input = new Scanner ( System.in ).nextInt ();
+         if (input == 0) {
+             postReview(posts);
+         } else if (input == 1) {
+             readReviews(posts);
+         } else if (input == 2) {
+             System.out.println("プログラムを終了します！");
+             System.exit(0);
+         } else {
+             exception();
+         }
+     }
+ }
+```
+
+ここでは main関数を定義しています。ここで while文とif文を使うことによって適するメソッドを呼び出しています。
+それでは詳細を見ていきましょう。
+
+ -    6行目
+
+ここではレビューを繰り返して書くことが出来るように while 文を用いています。今回はwhile文を何度も処理させる為、常にtrueにしています。
+
+```java[6]:Review.java
+    while(true){
+```
+
+ -    11行目から 21行目
+
+```java[11]:Review.java
+ int input = new Scanner ( System.in ).nextInt ();
+ if (input == 0) {
+     postReview(posts);
+ } else if (input == 1) {
+     readReviews(posts);
+ } else if (input == 2) {
+     System.out.println("プログラムを終了します！");
+     System.exit(0);
+ } else {
+     exception();
+ }
+```
+
+ここでは if文で条件分岐しています。11行目で定義した input の値に対して呼び出すメソッドを変更しています。
+ここからは呼び出されるメソッドの処理を見ていきましょう。
+
+ -     24行目から 42行目
+
+```java[24]:Review.java
+ public static void postReview(ArrayList<HashMap<String, String>> aPosts) {
+     String line = "----------------------------------------------";
+     HashMap<String, String> post = new HashMap<String, String>();
+     System.out.println("ジャンルを入力してください：");
+     String genre = new Scanner ( System.in ).nextLine ();
+     System.out.println("タイトルを入力してください：");
+     String title = new Scanner ( System.in ).nextLine ();
+     System.out.println("感想を入力してください：");
+     String review = new Scanner ( System.in ).nextLine ();
+     post.put("genre", genre);
+     post.put("title", title);
+     post.put("review", review);
+
+     System.out.println("ジャンル :" + post.get("genre")  +  "\n" + line);
+     System.out.println("タイトル :" + post.get("title")  +  "\n" + line);
+     System.out.println("感想 　　:" + post.get("review") + "\n" +  line );
+
+     aPosts.add(post);
+ }
+```
+
+ 13行目では、 関数 postReviewが呼び出されます。この際呼び出す時の処理としては、postReview(posts);このように呼び出しているので、受け取る引数の型を宣言する必要があります。つまり、ここでは ArrayListと型を宣言してあげましょう。
+またこのArrayListの中に存在する型はHashMapです。ここが複雑な構造になっているのですが、ArrayListという箱の中に、HashMapという2つ紐付いた情報が格納されると考えてください。
+
+```java
+public static void postReview(ArrayList<HashMap<String, String>> aPosts) {
+}
+```
+
+また、ここからはHashMapを使用して情報を格納していきます。HashMapでは以下のように型を代入し、宣言するのでした。
+
+```java
+HashMap<String, String> post = new HashMap<String, String>();
+```
+
+定義したHashMapに対して、putメソッドを使用して紐付いた情報を作成していきましょう。
+
+```java:Review.java
+    post.put("genre", genre);
+    post.put("title", title);
+    post.put("review", review);
+```
+
+最後にArrayListの中に情報を格納してあげないといけないので、addメソッドを使用して情報を格納してあげましょう。
+
+ -  43行目から 54行目
+
+```java[43]:Review.java
+　public static void readReviews(ArrayList<HashMap<String, String>> aPosts) {
+　    String line = "----------------------------------------------";
+　    for (int i = 0; i < aPosts.size(); i++){
+　        System.out.println("[" + i + "]：" + aPosts.get(i).get("title") + のレビュー);
+　    }
+　    System.out.println("見たいレビューを選択してください");
+　    int num = new Scanner ( System.in ).nextInt ();
+　
+　    System.out.println("ジャンル  :" + aPosts.get(num).get("genre") + "\n" + line);
+　    System.out.println("タイトル  :" + aPosts.get(num).get("title") + "\n" + line);
+　    System.out.println("感想     :" + aPosts.get(num).get("review") + "\n" + line);
+　}
+```
+
+ここでは readReviewsメソッドを定義しています。readReviewsメソッドもpostReviewメソッドと同様にして、引数に型の指定をしてあげる必要があります。ここでは、readReviewsと同様にしてHashMap型の引数を指定してあげましょう。
+
+-  45行目から47行目
+
+```java:Review.java
+　for (int i = 0; i < aPosts.size(); i++){
+　    System.out.println("[" + i + "]：" + aPosts.get(i).get("title") + のレビュー);
+　}
+```
+
+ここではfor文を用いて、ArrayLIstの要素の数だけ繰り返して処理を行っています。またArrayListから指定した要素の番号を取り出す際は、getメソッドを使用しました。
+
+```java
+  ArrayList.get(0);
+```
+
+このような上記のようにして、特定のArrayListから要素を抜き出してきます。
+またここでは、取得してきた情報がHashMapで取れてきます。つまり、HashMapのキーを指定してあげなければ、ご自身が入力して値を取得する事は出来ません。よってここでもgetメソッドを使用します。
+
+```java:Review.java
+        for (int i = 0; i < aPosts.size(); i++){
+            System.out.println("[" + i + "]：" + aPosts.get(i).get("title") + のレビュー);
+        }
+```
+このように取得することによって、求めたい情報を取得することが出来ます。
+
+
+また複数のtitleのみを表示させた後に、一つ一つの詳細を見れるようにしたいので下記のように変数numを用意して、getメソッドで情報を取得します。
+
+```java:Review.java
+        int num = new Scanner ( System.in ).nextInt ();
+        System.out.println("ジャンル  :" + aPosts.get(num).get("genre") + "\n" + line);
+        System.out.println("タイトル  :" + aPosts.get(num).get("title") + "\n" + line);
+        System.out.println("感想     :" + aPosts.get(num).get("review") + "\n" + line);
+```
+
+# 完成
+
+以上ですべての実装は終わりました。60行程度のソースコードの量ですが立派にアプリケーションとして機能していると思います。このアプリケーションが作れれば基本は押さえられています。今後さらに発展的なアプリケーションの開発ができるでしょう。
+
+## アプリケーションが完成した後
+
+これで一応は完成しましたが、まだまだこのアプリケーションには改善の余地があります。
+例を挙げると以下のような部分です。
+
+- 入力する項目を増やす。
+- レビューが1つも書かれていないときに「レビューを読む」を選べなくする。
+- 「見たいレビューの番号を入力してください：」で書いたレビュー数より大きい番号を入力したら再入力させる。
+- 数字以外を入力したら、再入力させる
+
+もちろんこれらの改善をすべて行う必要はありません。ここではこれらの解答は教えません。しかし自分で考えてプログラムを組むことは非常にレベルアップに繋がります。ぜひとも余力がある人は挑戦して頂きたいと思います。
+
+# 最後に
+
+以上で本章は終了です。お疲れ様でした。
