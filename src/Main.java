@@ -221,7 +221,7 @@ public class Main extends JFrame{
         header.add(searchPanel, BorderLayout.SOUTH);
         pane.add(header, BorderLayout.NORTH);
 
-        //検索結果　この部分がうまくいかない
+        //検索結果
         JPanel resultPanel = new JPanel();
 //        gridBagLayout = new GridBagLayout();
         resultPanel.setLayout(new GridLayout(1,2));
